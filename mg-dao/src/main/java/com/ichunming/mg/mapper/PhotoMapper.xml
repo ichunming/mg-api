@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ichunming.mg.dao.PhotoDao" >
+  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.Photo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="src" property="src" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="viewCnt" property="viewcnt" jdbcType="INTEGER" />
+    <result column="likeCnt" property="likecnt" jdbcType="INTEGER" />
+    <result column="replyCnt" property="replycnt" jdbcType="INTEGER" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, author, introduce, src, tag, viewCnt, likeCnt, replyCnt, createDate, updateDate, 
+    status
+  </sql>
+</mapper>

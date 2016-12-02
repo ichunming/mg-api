@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ichunming.mg.dao.VerifyInfoDao" >
+  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.VerifyInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="expire_date" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, receiver, type, content, expire_date, create_date
+  </sql>
+  
+  <select id="getByContent" resultMap="BaseResultMap" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_info
+    where content = #{content,jdbcType=VARCHAR}
+    <if test="receiver != null">
+        and receiver =#{receiver,jdbcType=VARCHAR}  
+    </if>
+    <if test="type != null">
+        and type = #{type,jdbcType=INTEGER}
+    </if>
+    order by expire_date desc
+    limit 0, 1
+  </select>
+
+  <insert id="insert" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    insert into verify_info (receiver, type, content, expire_date, create_date)
+    values (#{receiver,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, DATE_ADD(now(), INTERVAL 10 MINUTE), now())
+  </insert>
+  
+  <update id="update" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    update verify_info
+    set receiver = #{receiver,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      expire_date = #{expireDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

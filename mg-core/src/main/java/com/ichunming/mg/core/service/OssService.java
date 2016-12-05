@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ichunming.mg.common.constant.BucketType;
-import com.ichunming.mg.core.helper.AliOssClientWrapper;
 import com.ichunming.mg.core.helper.AliConfiguration;
+import com.ichunming.mg.core.helper.AliOssClientWrapper;
 
 @Service
 public class OssService {

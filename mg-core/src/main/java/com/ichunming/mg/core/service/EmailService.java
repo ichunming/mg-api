@@ -39,6 +39,7 @@ public class EmailService {
 			result =  EmailUtil.send(this.config, subject, content, to);
 		} catch (EmailException e) {
 			logger.debug("send simple mail to[" + to + "] fail.");
+			System.out.println(e);
 			return false;
 		}
 		

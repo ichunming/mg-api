@@ -1,25 +1,26 @@
 package com.ichunming.mg.common.constant;
 
 public enum BucketType {
-	FILE(1, "FILE"),
-	PIC(2, "PICTURE"),
-	AUDIO(3, "AUDIO"),
-	VIDEO(4, "VIDEO"),
-	OTHER(5, "OTHER");
+	FILE("FILE", "file storage"),
+	PIC("PICTURE", "picture storage"),
+	AUDIO("AUDIO", "audio storage"),
+	VIDEO("VIDEO", "video storage"),
+	OTHER("OTHER", "other storage");
 	
-	private int code;
 	private String key;
+	private String desc;
 	
-	private BucketType(int code, String key) {
-		this.code = code;
+	private BucketType(String key, String desc) {
 		this.key = key;
+		this.desc = desc;
 	}
 
-	public int getCode() {
-		return code;
-	}
-	
 	public String getKey() {
 		return key;
+	}
+	
+	@Override
+	public String toString() {
+		return this.desc;
 	}
 }

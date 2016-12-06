@@ -23,7 +23,7 @@ public class SmsService {
 	private static final Logger logger = LoggerFactory.getLogger(SmsService.class);
 	
 	@Autowired
-	public AliConfiguration config;
+	private AliConfiguration config;
 	
 	/**
 	 * 发送验证码短信
@@ -42,7 +42,7 @@ public class SmsService {
 		
 		try {
 			smsClient.send(config, receiverStr, this.config.getSmsTplValidateCode(), paramJson);
-		} catch (ClientException e) {
+		} catch(ClientException e) {
 			logger.error("send message fail.");
 			e.printStackTrace();
 			
@@ -69,7 +69,7 @@ public class SmsService {
 		
 		try {
 			smsClient.send(config, receiverStr, this.config.getSmsTplNotifyCode(), paramJson);
-		} catch (ClientException e) {
+		} catch(ClientException e) {
 			logger.error("send message fail.");
 			e.printStackTrace();
 			
@@ -77,5 +77,9 @@ public class SmsService {
 		}
 		
 		return true;
+	}
+	
+	public void setConfig(AliConfiguration config) {
+		this.config = config;
 	}
 }

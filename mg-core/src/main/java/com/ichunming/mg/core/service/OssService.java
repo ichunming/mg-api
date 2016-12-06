@@ -26,7 +26,7 @@ public class OssService {
 	private Map<String, AliOssClientWrapper> ossClientMap;
 	
 	@Autowired
-	private AliConfiguration ossConfiguration;
+	private AliConfiguration config;
 	
 	/**
 	 * init
@@ -37,11 +37,11 @@ public class OssService {
 		ossClientMap = new HashMap<String, AliOssClientWrapper>();
 		
 		//add module
-		ossClientMap.put(BucketType.FILE.getKey(), new AliOssClientWrapper(ossConfiguration, ossConfiguration.getOssBktFileName(), ossConfiguration.getOssBktFileUrl()));
-		ossClientMap.put(BucketType.PIC.getKey(), new AliOssClientWrapper(ossConfiguration, ossConfiguration.getOssBktPicName(), ossConfiguration.getOssBktPicUrl()));
-		ossClientMap.put(BucketType.AUDIO.getKey(), new AliOssClientWrapper(ossConfiguration, ossConfiguration.getOssBktAudioName(), ossConfiguration.getOssBktAudioUrl()));
-		ossClientMap.put(BucketType.VIDEO.getKey(), new AliOssClientWrapper(ossConfiguration, ossConfiguration.getOssBktVideoName(), ossConfiguration.getOssBktVideoUrl()));
-		ossClientMap.put(BucketType.OTHER.getKey(), new AliOssClientWrapper(ossConfiguration, ossConfiguration.getOssBktOtherName(), ossConfiguration.getOssBktOtherUrl()));
+		ossClientMap.put(BucketType.FILE.getKey(), new AliOssClientWrapper(config, config.getOssBktFileName(), config.getOssBktFileUrl()));
+		ossClientMap.put(BucketType.PIC.getKey(), new AliOssClientWrapper(config, config.getOssBktPicName(), config.getOssBktPicUrl()));
+		ossClientMap.put(BucketType.AUDIO.getKey(), new AliOssClientWrapper(config, config.getOssBktAudioName(), config.getOssBktAudioUrl()));
+		ossClientMap.put(BucketType.VIDEO.getKey(), new AliOssClientWrapper(config, config.getOssBktVideoName(), config.getOssBktVideoUrl()));
+		ossClientMap.put(BucketType.OTHER.getKey(), new AliOssClientWrapper(config, config.getOssBktOtherName(), config.getOssBktOtherUrl()));
 	}
 	
 	/**
@@ -121,4 +121,7 @@ public class OssService {
 		return ossClientMap.get(bucketKey.toUpperCase());
 	}
 	
+	public void setConfig(AliConfiguration config) {
+		this.config = config;
+	}
 }

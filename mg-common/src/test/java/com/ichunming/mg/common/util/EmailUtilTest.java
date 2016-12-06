@@ -8,49 +8,100 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.mail.EmailException;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ichunming.mg.common.util.EmailUtil;
 import com.ichunming.mg.common.util.helper.MailConfiguration;
 
 /**
  * Unit test for simple App.
  */
 public class EmailUtilTest {
-	@Test
-	public void test() throws InterruptedException {
+	private static MailConfiguration config;
+	
+	private static String subject;
+	
+	private static String content;
+	
+	private static String toEmail;
+	
+	private static List<Map<String, String>> attachs;
+	
+	// 所有方法执行一次
+	@BeforeClass
+	public static void beforeClass() {
+		subject = "Validate";
+		content = "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head><body><p>点击链接<a href='code=#{code}'>this is url</a>前往</p></body></html>";
+		toEmail = "";
 		
-		boolean result = true;
-		
-		// send simple email
-		MailConfiguration config = new MailConfiguration();
-		config.setHost("smtp.126.com"); // smtp.126.com
-		config.setUsername("**@126.com"); // test@126.com
-		config.setPassword("**"); // password
-		config.setFrom("**@126.com"); // test@126.com
-		config.setFromName("**"); // test
-		config.setCharset("utf-8");
-		
-		String content = "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head><body><p>点击链接<a href='code=#{code}'>this is url</a>前往</p></body></html>";
-		
-		// send email with attachment
-		List<Map<String, String>> attachs = new ArrayList<Map<String, String>>();
+		attachs = new ArrayList<Map<String, String>>();
 		Map<String, String> attach = new HashMap<String, String>();
 		attach.put("name", "test.txt");
 		attach.put("path", "D:\\temp\\test.txt");
 		attachs.add(attach);
 		
+		config = new MailConfiguration();
+		config.setHost("");
+		config.setUsername("");
+		config.setPassword("");
+		config.setFrom("");
+		config.setFromName("");
+		config.setCharset("");
+	}
+	
+	@Test
+	public void sendTest() {
+		// test method
+		boolean result = false;
 		try {
-			result = EmailUtil.send(config, "主题", content, "ming.zhang@17mengshare.com");
-			//result = MailUtil.sendHtml(config, "主题", content, "**@17mengshare.com");
-			//result = MailUtil.send(config, "主题", content, "**@17mengshare.com", attachs);
-			//result = MailUtil.sendHtml(config, "主题", content, "**@17mengshare.com", attachs);
-			System.out.println("test finish!");
-			//Thread.sleep(3000);
+			result = EmailUtil.send(config, subject, content, toEmail);
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// verify result
+		assertTrue(result);
+	}
+	
+	@Test
+	public void sendWithAttTest() {
+		// test method
+		boolean result = false;
+		try {
+			result = EmailUtil.send(config, subject, content, toEmail, attachs);
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
+		
+		// verify result
+		assertTrue(result);
+	}
+	
+	@Test
+	public void sendHtmlTest() {
+		// test method
+		boolean result = false;
+		try {
+			result = EmailUtil.sendHtml(config, subject, content, toEmail);
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
+		
+		// verify result
+		assertTrue(result);
+	}
+	
+	@Test
+	public void sendHtmlWithAttTest() {
+		// test method
+		boolean result = false;
+		try {
+			result = EmailUtil.sendHtml(config, subject, content, toEmail, attachs);
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
+		
+		// verify result
 		assertTrue(result);
 	}
 }

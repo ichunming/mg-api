@@ -23,8 +23,9 @@ public class AliSmsClientWrapper {
 	 */
 	public void send(AliConfiguration config, String receiver, String tplCode, String param) throws ClientException {
 		IClientProfile profile = DefaultProfile.getProfile(config.getEndpoint(), config.getAccessKeyId(), config.getAccessKeySecret());
-
+		
 		DefaultProfile.addEndpoint(config.getEndpoint(), config.getEndpoint(), "Sms", "sms.aliyuncs.com");
+		
 		IAcsClient client = new DefaultAcsClient(profile);
 		SingleSendSmsRequest request = new SingleSendSmsRequest();
 		request.setSignName(config.getSmsSignName());

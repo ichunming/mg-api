@@ -26,6 +26,8 @@ public class EmailUtil {
 	
 	private static final short HTML_MAIL = 2;
 	
+	private static final String DEFAULT_CHARSET = "utf-8";
+	
 	private EmailUtil(){}
 	
 	/**
@@ -126,7 +128,7 @@ public class EmailUtil {
 		}
 		email.setHostName(config.getHost()); // 发送服务器
         email.setAuthentication(config.getUsername(), config.getPassword()); // 发送邮件的用户名和密码  
-        email.setCharset(config.getCharset()); //邮件编码方式
+        email.setCharset(StringUtil.isEmpty(config.getCharset()) ? DEFAULT_CHARSET : config.getCharset()); //邮件编码方式
         email.setFrom(config.getFrom(), config.getFromName()); // 发送邮箱
 		return email;
 	}

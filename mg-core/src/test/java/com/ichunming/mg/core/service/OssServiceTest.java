@@ -32,10 +32,9 @@ public class OssServiceTest {
 		prepareData();
 		
 		// test method
-		boolean result = target.delete(BucketType.PIC.getKey(), "test");
+		target.delete(BucketType.PIC.getKey(), "test");
 		
 		// verify result
-		assertTrue(result);
 	}
 	
 	@Ignore

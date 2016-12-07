@@ -13,7 +13,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.ServiceException;
 
 public class AliOssClientWrapper {
 	
@@ -37,15 +39,16 @@ public class AliOssClientWrapper {
 	 * @param is
 	 * @return
 	 */
-	public String post(String key, InputStream is) {
+	public String post(String key, InputStream is) throws ClientException, ServiceException {
 		OSSClient ossClient = null;
 		try{
 			ossClient = getClient();
 			ossClient.putObject(bucket, key, is);
-		} catch(Exception e) {
+		} catch(ClientException | ServiceException e) {
 			logger.error("post inputstream to oss fail.", e);
-			return null;
-		} finally {
+			throw e;
+		}
+		finally {
 			close(ossClient);
 		}
 		
@@ -57,14 +60,14 @@ public class AliOssClientWrapper {
 	 * @param key
 	 * @param filePath
 	 */
-	public String post(String key, String filePath) {
+	public String post(String key, String filePath) throws ClientException, ServiceException {
 		OSSClient ossClient = null;
 		try{
 			ossClient = getClient();
 			ossClient.putObject(bucket, key, new File(filePath));
-		} catch(Exception e) {
+		} catch(ClientException | ServiceException e) {
 			logger.error("post file to oss fail.", e);
-			return null;
+			throw e;
 		} finally {
 			close(ossClient);
 		}
@@ -77,7 +80,7 @@ public class AliOssClientWrapper {
 	 * @param key
 	 * @param filePath
 	 */
-	public List<String> post(Map<String, String> fileMap) {
+	public List<String> post(Map<String, String> fileMap) throws ClientException, ServiceException {
 		OSSClient ossClient = null;
 		List<String> urls = new ArrayList<String>();
 		try{
@@ -86,8 +89,9 @@ public class AliOssClientWrapper {
 				ossClient.putObject(bucket, key, new File(fileMap.get(key)));
 				urls.add(bucketUrl + key);
 			}
-		} catch(Exception e) {
-			logger.error("error occur when post file to oss.", e);
+		} catch(ClientException | ServiceException e) {
+			logger.error("error occur when post multi file to oss.", e);
+			throw e;
 		} finally {
 			close(ossClient);
 		}
@@ -99,41 +103,36 @@ public class AliOssClientWrapper {
 	 * 删除资源
 	 * @param key
 	 */
-	public boolean delete(String key) {
+	public void delete(String key) throws ClientException, ServiceException {
 		OSSClient ossClient = null;
 		try{
 			ossClient = getClient();
 			ossClient.deleteObject(bucket, key);
-		} catch(Exception e) {
+		} catch(ClientException | ServiceException e) {
 			logger.error("delete from oss fail.", e);
-			return false;
+			throw e;
 		} finally {
 			close(ossClient);
 		}
-		
-		return true;
 	}
 
 	/**
 	 * 批量删除资源
 	 * @param key
 	 */
-	public boolean delete(List<String> keys) {
+	public void delete(List<String> keys) throws ClientException, ServiceException {
 		OSSClient ossClient = null;
-		boolean result = true;
 		try{
 			ossClient = getClient();
 			for(String key : keys) {
 				ossClient.deleteObject(bucket, key);
 			}
-		} catch(Exception e) {
+		} catch(ClientException | ServiceException e) {
 			logger.error("delete from oss fail.", e);
-			result = false;
+			throw e;
 		} finally {
 			close(ossClient);
 		}
-		
-		return result;
 	}
 	
 	/**

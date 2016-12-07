@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ichunming.mg.common.constant.BucketType;
+import com.ichunming.mg.core.exception.OssServiceException;
 import com.ichunming.mg.core.helper.AliConfiguration;
 import com.ichunming.mg.core.helper.AliOssClientWrapper;
 
@@ -55,7 +56,14 @@ public class OssService {
 		// get client
 		AliOssClientWrapper ossClientWrapper = getClient(bucketKey);
 
-		return ossClientWrapper.post(key, is);
+		String url = null;
+		
+		try {
+			url = ossClientWrapper.post(key, is);
+		} catch(Exception e) {
+			throw new OssServiceException(e);
+		}
+		return url;
 	}
 	
 	/**
@@ -69,7 +77,14 @@ public class OssService {
 		// get client
 		AliOssClientWrapper ossClientWrapper = getClient(bucketKey);
 		
-		return ossClientWrapper.post(key, filePath);
+		String url = null;
+		
+		try {
+			url = ossClientWrapper.post(key, filePath);
+		} catch(Exception e) {
+			throw new OssServiceException(e);
+		}
+		return url;
 	}
 	
 	/**
@@ -83,7 +98,14 @@ public class OssService {
 		// get client
 		AliOssClientWrapper ossClientWrapper = getClient(bucketKey);
 		
-		return ossClientWrapper.post(fileMap);
+		List<String> urls = null;
+		
+		try {
+			urls = ossClientWrapper.post(fileMap);
+		} catch(Exception e) {
+			throw new OssServiceException(e);
+		}
+		return urls;
 	}
 	
 	/**
@@ -91,10 +113,15 @@ public class OssService {
 	 * @param bucketKey
 	 * @param key
 	 */
-	public boolean delete(String bucketKey, String key) {
+	public void delete(String bucketKey, String key) {
 		// get client
 		AliOssClientWrapper ossClientWrapper = getClient(bucketKey);
-		return ossClientWrapper.delete(key);
+		
+		try {
+			ossClientWrapper.delete(key);
+		} catch(Exception e) {
+			throw new OssServiceException(e);
+		}
 	}
 	
 	/**
@@ -102,9 +129,14 @@ public class OssService {
 	 * @param bucketKey
 	 * @param files
 	 */
-	public boolean delete(String bucketKey, List<String> keys) {
+	public void delete(String bucketKey, List<String> keys) {
 		AliOssClientWrapper ossClientWrapper = getClient(bucketKey);
-		return ossClientWrapper.delete(keys);
+		
+		try {
+			ossClientWrapper.delete(keys);
+		} catch(Exception e) {
+			throw new OssServiceException(e);
+		}
 	}
 	
 	/**

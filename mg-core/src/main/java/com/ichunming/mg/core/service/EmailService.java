@@ -7,7 +7,6 @@ package com.ichunming.mg.core.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.ichunming.mg.common.util.EmailUtil;
 import com.ichunming.mg.common.util.helper.MailConfiguration;
+import com.ichunming.mg.core.exception.EmailServiceException;
 
 @Service
 public class EmailService {
@@ -37,10 +37,9 @@ public class EmailService {
 		logger.debug("send simple mail to[" + to + "].");
 		try {
 			result =  EmailUtil.send(this.config, subject, content, to);
-		} catch (EmailException e) {
-			logger.debug("send simple mail to[" + to + "] fail.");
-			System.out.println(e);
-			return false;
+		} catch (Exception e) {
+			logger.error("send simple mail to[" + to + "] fail.", e);
+			throw new EmailServiceException(e);
 		}
 		
 		return result;
@@ -60,9 +59,9 @@ public class EmailService {
 		logger.debug("send mail with attachment to[" + to + "].");
 		try {
 			result =  EmailUtil.send(this.config, subject, content, to, attachs);
-		} catch (EmailException e) {
-			logger.debug("send mail with attachment to[" + to + "] fail.");
-			return false;
+		} catch (Exception e) {
+			logger.error("send mail with attachment to[" + to + "] fail.");
+			throw new EmailServiceException(e);
 		}
 		
 		return result;
@@ -81,9 +80,9 @@ public class EmailService {
 		logger.debug("send html mail to[" + to + "].");
 		try {
 			result =  EmailUtil.sendHtml(this.config, subject, content, to);
-		} catch (EmailException e) {
-			logger.debug("send html mail to[" + to + "] fail.");
-			return false;
+		} catch (Exception e) {
+			logger.error("send html mail to[" + to + "] fail.");
+			throw new EmailServiceException(e);
 		}
 		
 		return result;
@@ -103,9 +102,9 @@ public class EmailService {
 		logger.debug("send html mail with attachment to[" + to + "].");
 		try {
 			result =  EmailUtil.sendHtml(this.config, subject, content, to, attachs);
-		} catch (EmailException e) {
-			logger.debug("send html mail with attachment to[" + to + "] fail.");
-			return false;
+		} catch (Exception e) {
+			logger.error("send html mail with attachment to[" + to + "] fail.");
+			throw new EmailServiceException(e);
 		}
 		
 		return result;

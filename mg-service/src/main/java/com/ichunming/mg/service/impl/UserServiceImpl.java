@@ -228,7 +228,7 @@ public class UserServiceImpl implements IUserService {
 		// send validate code
 		logger.debug("send validate code...");
 		if(!emailService.send("帐号验证", "验证码：" + code + "，有效时间3分钟", email)) {
-			return new BaseResult(ErrorCode.ERR_SVR_EMAIL_SEND_FAIL);
+			return new BaseResult(ErrorCode.ERR_SVR_EMAIL_EX);
 		}
 		
 		// save validate code
@@ -255,7 +255,7 @@ public class UserServiceImpl implements IUserService {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("code", code);
 		if(!smsService.sendValidation(Arrays.asList(mobile), param)) {
-			return new BaseResult(ErrorCode.ERR_SVR_SMS_FAIL);
+			return new BaseResult(ErrorCode.ERR_SVR_SMS_EX);
 		}
 
 		// save validate code

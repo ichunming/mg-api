@@ -26,6 +26,7 @@ public class ErrorCode {
 	public static final Long ERR_USER_VERIFY_CODE_OVERDUE = 2010L;
 	
 	// 服务级错误码
-	public static final Long ERR_SVR_SMS_FAIL = 4001L;
-	public static final Long ERR_SVR_EMAIL_SEND_FAIL = 4002L;
+	public static final Long ERR_SVR_SMS_EX = 4001L;
+	public static final Long ERR_SVR_EMAIL_EX = 4002L;
+	public static final Long ERR_SVR_OSS_EX = 4003L;
 }

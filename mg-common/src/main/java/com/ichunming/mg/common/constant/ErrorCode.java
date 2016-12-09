@@ -12,6 +12,7 @@ public class ErrorCode {
 	public static final Long ERR_SYS_METHOD_NOT_SUPPORT= 1004L;
 	public static final Long ERR_SYS_BAD_REQUEST = 1005L;
 	public static final Long ERR_SYS_REQUEST_PARAM_INVALID = 1006L;
+	public static final Long ERR_SYS_LOAD_TPL_FAIL = 1007L;
 	
 	// 用户级错误码
 	public static final Long ERR_USER_NO_SESSION = 2001L;
@@ -24,9 +25,10 @@ public class ErrorCode {
 	public static final Long ERR_USER_PORTRAIT_EMPTY = 2008L;
 	public static final Long ERR_USER_VERIFY_CODE_INVALID = 2009L;
 	public static final Long ERR_USER_VERIFY_CODE_OVERDUE = 2010L;
+	public static final Long ERR_USER_SEND_SMS_FREQUENT = 2011L;
 	
 	// 服务级错误码
-	public static final Long ERR_SVR_SMS_EX = 4001L;
-	public static final Long ERR_SVR_EMAIL_EX = 4002L;
-	public static final Long ERR_SVR_OSS_EX = 4003L;
+	public static final Long ERR_SVR_SMS_ERROR = 4001L;
+	public static final Long ERR_SVR_EMAIL_ERROR = 4002L;
+	public static final Long ERR_SVR_OSS_ERROR = 4003L;
 }

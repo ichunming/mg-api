@@ -41,13 +41,13 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
 		// DEBUG MODE
 		if(SystemSettings.DEBUG_MODE) {
 			sessionInfo = new SessionInfo(1L, "test@test.com", "13761104110");
+			SessionUtil.setSessionInfo(sessionInfo, request);
 		}
 		if (null == sessionInfo) {
 			logger.debug("No Session." );
 			throw new InvalidSessionException("2001","No Session.");
-		} else {
-			logger.debug("uid:" + sessionInfo.getUid().toString());
 		}
+		
 		return true;
 	}
 }

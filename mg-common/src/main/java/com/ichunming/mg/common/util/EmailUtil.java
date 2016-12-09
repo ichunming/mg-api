@@ -15,7 +15,7 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.ichunming.mg.common.util.helper.MailConfiguration;
+import com.ichunming.mg.common.util.helper.EmailConfiguration;
 
 public class EmailUtil {
 	
@@ -38,10 +38,10 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean send(MailConfiguration config, String subject, String content, String to) throws EmailException {
+	public static boolean send(EmailConfiguration config, String subject, String content, String to) throws EmailException {
 		SimpleEmail email = (SimpleEmail) createEmail(config, SIMPLE_MAIL);
         // 封装mail
-        encapMail(email, subject, content, to);
+        encapMail(email, subject, content, to, SIMPLE_MAIL);
         // 发送邮件
         email.send();
 
@@ -57,10 +57,10 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean send(MailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
+	public static boolean send(EmailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
 		MultiPartEmail email = (MultiPartEmail) createEmail(config, MULTIPART_MAIL);
 		// 封装mail
-    	encapMail(email, subject, content, to);
+    	encapMail(email, subject, content, to, MULTIPART_MAIL);
         // 添加附件
     	encapAttach(email, attachs);
     	// 发送邮件
@@ -78,10 +78,10 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean sendHtml(MailConfiguration config, String subject, String content, String to) throws EmailException {
+	public static boolean sendHtml(EmailConfiguration config, String subject, String content, String to) throws EmailException {
 		HtmlEmail email = (HtmlEmail) createEmail(config, HTML_MAIL);
 		// 封装mail
-    	encapMail(email, subject, content, to);
+    	encapMail(email, subject, content, to, HTML_MAIL);
     	// 发送邮件
         email.send();
 
@@ -98,10 +98,10 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean sendHtml(MailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
+	public static boolean sendHtml(EmailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
 		HtmlEmail email = (HtmlEmail) createEmail(config, HTML_MAIL);
 		// 封装mail
-    	encapMail(email, subject, content, to);
+    	encapMail(email, subject, content, to, HTML_MAIL);
         // 添加附件
     	encapAttach(email, attachs);
     	// 发送邮件
@@ -117,7 +117,7 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException
 	 */
-	private static Email createEmail(MailConfiguration config, short type) throws EmailException {
+	private static Email createEmail(EmailConfiguration config, short type) throws EmailException {
 		Email email;
 		if(type == SIMPLE_MAIL) {
 			email = new SimpleEmail();
@@ -141,10 +141,14 @@ public class EmailUtil {
 	 * @param to
 	 * @throws EmailException
 	 */
-	private static void encapMail(Email email, String subject, String content, String to) throws EmailException {
+	private static void encapMail(Email email, String subject, String content, String to, short type) throws EmailException {
 		email.addTo(to);
         email.setSubject(subject); // 主题
-        email.setMsg(content); // 内容
+        if(type == HTML_MAIL) {
+			((HtmlEmail)email).setHtmlMsg(content);
+		} else {
+			email.setMsg(content); // 内容
+		}
 	}
 	
 	/**

@@ -54,29 +54,7 @@ public class UserController {
 		} else {
 			// 请求参数错误
 			logger.debug("request parameter error.");
-			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID);
-		}
-	}
-	
-	@RequestMapping(value = "verifycode/get", method = RequestMethod.POST)
-	public BaseResult getCode(String username) {
-		// 获取验证码
-		logger.debug("get verify code...");
-		
-		// 检测邮箱或手机
-		logger.debug("check username[" + username + "].");
-		if(StringUtil.isEmail(username)) {
-			// 邮箱发送认证code
-			logger.debug("send code by email...");
-			return userService.sendCodeByEmail(username);
-		} else if(StringUtil.isMobile(username)) {		
-			// 手机发送认证code
-			logger.debug("send code by mobile...");
-			return userService.sendCodeByMobile(username);
-		} else {
-			// 请求参数错误
-			logger.debug("request parameter error.");
-			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID);
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "parameter invalid");
 		}
 	}
 	
@@ -98,7 +76,7 @@ public class UserController {
 		} else {
 			// 请求参数错误
 			logger.debug("request parameter error.");
-			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID);
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "parameter invalid");
 		}
 		
 		if(result.getCode().longValue() == ErrorCode.SUCCESS.longValue()) {
@@ -127,11 +105,19 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "password/reset", method = RequestMethod.POST)
-	public BaseResult resetPwd(String oldPwd, String pwd) {
+	public BaseResult resetPwd(String oldPwd, String newPwd, HttpServletRequest request) {
 		// 密码重置
 		logger.debug("reset user password...");
-		// TODO
-		return null;
+		// 参数check
+		if(!StringUtil.isPassword(oldPwd) || !StringUtil.isPassword(newPwd)) {
+			// 请求参数错误
+			logger.debug("request parameter error.");
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "parameter invalid");
+		}
+
+		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
+		
+		return userService.resetPwd(sessionInfo.getUid(), oldPwd, newPwd);
 	}
 	
 	@RequestMapping(value = "profile/get", method = RequestMethod.POST)

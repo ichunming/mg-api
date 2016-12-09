@@ -65,16 +65,10 @@ public interface IUserService {
 	public boolean isMobileExist(String mobile);
 	
 	/**
-	 * 邮箱发送认证code
-	 * @param email
+	 * 修改密码
+	 * @param oldPwd
+	 * @param newPwd
 	 * @return
 	 */
-	public BaseResult sendCodeByEmail(String email);
-	
-	/**
-	 * 手机发送认证code
-	 * @param mobile
-	 * @return
-	 */
-	public BaseResult sendCodeByMobile(String mobile);
+	public BaseResult resetPwd(Long uid, String oldPwd, String newPwd);
 }

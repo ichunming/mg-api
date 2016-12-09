@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <p>验证码：<b>${code!''}</b>，有效时间3分钟</p>
+</body>
+</html>

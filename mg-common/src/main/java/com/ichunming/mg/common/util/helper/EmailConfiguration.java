@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MailConfiguration {
+public class EmailConfiguration {
 	@Value("#{configProperties['mail.host']}")
 	private String host;
 	@Value("#{configProperties['mail.username']}")
@@ -18,6 +18,21 @@ public class MailConfiguration {
 	@Value("#{configProperties['mail.charset']}")
 	private String charset;
 	
+	private String verifyCodeSubject = "帐号验证";
+	private String verifyCodeMsgTpl = "emailVerifyCodeTpl.xml";
+	
+	public String getVerifyCodeSubject() {
+		return verifyCodeSubject;
+	}
+	public void setVerifyCodeSubject(String verifyCodeSubject) {
+		this.verifyCodeSubject = verifyCodeSubject;
+	}
+	public String getVerifyCodeMsgTpl() {
+		return verifyCodeMsgTpl;
+	}
+	public void setVerifyCodeMsgTpl(String verifyCodeMsgTpl) {
+		this.verifyCodeMsgTpl = verifyCodeMsgTpl;
+	}
 	public String getHost() {
 		return host;
 	}

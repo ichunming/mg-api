@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ichunming.mg.common.util.EmailUtil;
-import com.ichunming.mg.common.util.helper.MailConfiguration;
+import com.ichunming.mg.common.util.helper.EmailConfiguration;
 import com.ichunming.mg.core.exception.EmailServiceException;
+import com.ichunming.mg.entity.EmailTplMsgEntity;
 
 @Service
 public class EmailService {
@@ -22,23 +23,21 @@ public class EmailService {
 	private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 	
 	@Autowired
-	private MailConfiguration config;
+	private EmailConfiguration config;
 	
 	/**
 	 * send simple mail
-	 * @param subject
-	 * @param content
-	 * @param to
+	 * @param msg
 	 * @return
 	 */
-	public boolean send(String subject, String content, String to) {
+	public boolean send(EmailTplMsgEntity msg) {
 		
 		boolean result = true;
-		logger.debug("send simple mail to[" + to + "].");
+		logger.debug("send simple mail to[" + msg.getTo() + "].");
 		try {
-			result =  EmailUtil.send(this.config, subject, content, to);
+			result =  EmailUtil.send(this.config, msg.getSubject(), msg.getContent(), msg.getTo());
 		} catch (Exception e) {
-			logger.error("send simple mail to[" + to + "] fail.", e);
+			logger.error("send simple mail to[" + msg.getTo() + "] fail.", e);
 			throw new EmailServiceException(e);
 		}
 		
@@ -47,20 +46,18 @@ public class EmailService {
 
 	/**
 	 * send mail with attachment
-	 * @param subject
-	 * @param content
-	 * @param to
+	 * @param msg
 	 * @param attachs
 	 * @return
 	 */
-	public boolean send(String subject, String content, String to, List<Map<String, String>> attachs) {
+	public boolean send(EmailTplMsgEntity msg, List<Map<String, String>> attachs) {
 
 		boolean result = true;
-		logger.debug("send mail with attachment to[" + to + "].");
+		logger.debug("send mail with attachment to[" + msg.getTo() + "].");
 		try {
-			result =  EmailUtil.send(this.config, subject, content, to, attachs);
+			result =  EmailUtil.send(this.config, msg.getSubject(), msg.getContent(), msg.getTo(), attachs);
 		} catch (Exception e) {
-			logger.error("send mail with attachment to[" + to + "] fail.");
+			logger.error("send mail with attachment to[" + msg.getTo() + "] fail.");
 			throw new EmailServiceException(e);
 		}
 		
@@ -69,19 +66,17 @@ public class EmailService {
 
 	/**
 	 * send html mail
-	 * @param subject
-	 * @param content
-	 * @param to
+	 * @param msg
 	 * @return
 	 */
-	public boolean sendHtml(String subject, String content, String to) {
+	public boolean sendHtml(EmailTplMsgEntity msg) {
 
 		boolean result = true;
-		logger.debug("send html mail to[" + to + "].");
+		logger.debug("send html mail to[" + msg.getTo() + "].");
 		try {
-			result =  EmailUtil.sendHtml(this.config, subject, content, to);
+			result =  EmailUtil.sendHtml(this.config, msg.getSubject(), msg.getContent(), msg.getTo());
 		} catch (Exception e) {
-			logger.error("send html mail to[" + to + "] fail.");
+			logger.error("send html mail to[" + msg.getTo() + "] fail.");
 			throw new EmailServiceException(e);
 		}
 		
@@ -89,21 +84,19 @@ public class EmailService {
 	}
 
 	/**
-	 * send mail with attachment
-	 * @param subject
-	 * @param content
-	 * @param to
+	 * send html mail with attachment
+	 * @param msg
 	 * @param attachs
 	 * @return
 	 */
-	public boolean sendHtml(String subject, String content, String to, List<Map<String, String>> attachs) {
+	public boolean sendHtml(EmailTplMsgEntity msg, List<Map<String, String>> attachs) {
 
 		boolean result = true;
-		logger.debug("send html mail with attachment to[" + to + "].");
+		logger.debug("send html mail with attachment to[" + msg.getTo() + "].");
 		try {
-			result =  EmailUtil.sendHtml(this.config, subject, content, to, attachs);
+			result =  EmailUtil.sendHtml(this.config, msg.getSubject(), msg.getContent(), msg.getTo(), attachs);
 		} catch (Exception e) {
-			logger.error("send html mail with attachment to[" + to + "] fail.");
+			logger.error("send html mail with attachment to[" + msg.getTo() + "] fail.");
 			throw new EmailServiceException(e);
 		}
 		

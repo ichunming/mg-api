@@ -22,20 +22,20 @@ public class ErrorRequestController {
 	@ResponseBody
 	public BaseResult handle404Error(HttpServletRequest request,HttpServletResponse response){						
 		logger.debug("404 Error.");
-		return new BaseResult(ErrorCode.ERR_SYS_NO_RESOURCE_FOUND);
+		return new BaseResult(ErrorCode.ERR_SYS_NO_RESOURCE_FOUND, "404 error");
 	}
 	
 	@RequestMapping(value = "/500", method = {RequestMethod.GET,RequestMethod.POST}, headers = "Accept=application/json;charset=UTF-8", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public BaseResult handle500Error(HttpServletRequest request,HttpServletResponse response){
 		logger.debug("505 Error.");
-		return new BaseResult(ErrorCode.ERR_SYS_INTERNAL_ERROR);
+		return new BaseResult(ErrorCode.ERR_SYS_INTERNAL_ERROR, "500 error");
 	}
 	
 	@RequestMapping(value = "/400", method = {RequestMethod.GET,RequestMethod.POST}, headers = "Accept=application/json;charset=UTF-8", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public BaseResult handle400Error(HttpServletRequest request,HttpServletResponse response){
 		logger.debug("400 Error.");
-		return new BaseResult(ErrorCode.ERR_SYS_BAD_REQUEST);
+		return new BaseResult(ErrorCode.ERR_SYS_BAD_REQUEST, "400 error");
 	}
 }

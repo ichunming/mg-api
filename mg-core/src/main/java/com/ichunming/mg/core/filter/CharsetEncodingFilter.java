@@ -37,7 +37,6 @@ public class CharsetEncodingFilter implements Filter {
 		request.setCharacterEncoding(encodeString);
 		response.setCharacterEncoding(encodeString);
 		response.setContentType("Accept=application/json;charset=" + encodeString);
-		System.out.println("encode filter....");
 		chain.doFilter(request, response);
 	}
 

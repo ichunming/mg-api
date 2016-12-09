@@ -28,10 +28,33 @@
     limit 0, 1
   </select>
 
+  <select id="getRecent" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_info
+    where receiver =#{receiver,jdbcType=VARCHAR}
+    and type = 0
+    and TIMESTAMPDIFF(SECOND, create_date, now()) &lt;= 30
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from verify_info_his
+    where receiver =#{receiver,jdbcType=VARCHAR}
+    and type = 0
+    and TIMESTAMPDIFF(SECOND, create_date, now()) &lt;= 30
+    limit 0, 1
+  </select>
+
   <insert id="insert" parameterType="com.ichunming.mg.model.VerifyInfo" >
     insert into verify_info (receiver, type, content, expire_date, create_date)
     values (#{receiver,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, DATE_ADD(now(), INTERVAL 10 MINUTE), now())
+      #{content,jdbcType=VARCHAR}, DATE_ADD(now(), INTERVAL 3 MINUTE), now())
+  </insert>
+  
+  <insert id="insertToHis" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    insert into verify_info_his (receiver, type, content, expire_date, create_date)
+    values (#{receiver,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{expireDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
   
   <update id="update" parameterType="com.ichunming.mg.model.VerifyInfo" >
@@ -43,4 +66,9 @@
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from verify_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
 </mapper>

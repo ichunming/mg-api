@@ -5,11 +5,6 @@
  */
 package com.ichunming.mg.service.impl;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +13,17 @@ import org.springframework.stereotype.Service;
 import com.ichunming.mg.common.constant.ErrorCode;
 import com.ichunming.mg.common.constant.UserStatus;
 import com.ichunming.mg.common.constant.UserType;
-import com.ichunming.mg.common.util.DateUtil;
 import com.ichunming.mg.common.util.EncryptionUtil;
 import com.ichunming.mg.common.util.RandomUtil;
-import com.ichunming.mg.core.service.EmailService;
-import com.ichunming.mg.core.service.SmsService;
 import com.ichunming.mg.dao.UserDao;
 import com.ichunming.mg.dao.UserProfileDao;
-import com.ichunming.mg.dao.VerifyInfoDao;
 import com.ichunming.mg.entity.SessionInfo;
 import com.ichunming.mg.entity.vo.BaseResult;
 import com.ichunming.mg.model.User;
 import com.ichunming.mg.model.UserProfile;
 import com.ichunming.mg.model.UserView;
-import com.ichunming.mg.model.VerifyInfo;
-import com.ichunming.mg.service.ICommonService;
 import com.ichunming.mg.service.IUserService;
+import com.ichunming.mg.service.IVerifyService;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -47,22 +37,13 @@ public class UserServiceImpl implements IUserService {
 	private UserProfileDao profileDao;
 	
 	@Autowired
-	private ICommonService commonService;
-	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private SmsService smsService;
-	
-	@Autowired
-	private VerifyInfoDao verifyDao;
+	private IVerifyService verifyService;
 	
 	@Override
 	public BaseResult registerByEmail(String email, String password, String code) {
 		BaseResult result = null;
 		// check验证码
-		result = commonService.verifyCode(email, UserType.EMAIL.getCode(), code);
+		result = verifyService.verifyCode(email, UserType.EMAIL.getCode(), code);
 		
 		if(result.getCode().longValue() == ErrorCode.ERR_USER_VERIFY_CODE_INVALID.longValue()) {
 			// 验证码无效
@@ -77,7 +58,7 @@ public class UserServiceImpl implements IUserService {
 		// 检测用户是否存在
 		if(isEmailExist(email)) {
 			logger.debug("username already exist.");
-			return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST);
+			return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST, "User Already Exist");
 		}
 		
 		// 邮箱注册
@@ -96,7 +77,7 @@ public class UserServiceImpl implements IUserService {
 	public BaseResult registerByMobile(String mobile, String password, String code) {
 		BaseResult result = null;
 		// check验证码
-		result = commonService.verifyCode(mobile, UserType.MOBILE.getCode(), code);
+		result = verifyService.verifyCode(mobile, UserType.MOBILE.getCode(), code);
 		
 		if(result.getCode().longValue() == ErrorCode.ERR_USER_VERIFY_CODE_INVALID.longValue()) {
 			// 验证码无效
@@ -111,7 +92,7 @@ public class UserServiceImpl implements IUserService {
 		// 检测用户是否存在-double check
 		if(isMobileExist(mobile)) {
 			logger.debug("username already exist.");
-			return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST);
+			return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST, "User Already Exist");
 		}
 		
 		// 手机注册
@@ -135,7 +116,7 @@ public class UserServiceImpl implements IUserService {
 		// 检测用户是否存在
 		if(null == user) {
 			logger.debug("username not exist.");
-			return new BaseResult(ErrorCode.ERR_USER_NOT_EXIST);
+			return new BaseResult(ErrorCode.ERR_USER_NOT_EXIST, "User Not Exist");
 		}
 		
 		// 状态check
@@ -143,15 +124,15 @@ public class UserServiceImpl implements IUserService {
 		if(user.getStatus() == UserStatus.Invalid.getCode()) {
 			// 未认证
 			logger.debug("unauthenticated...");
-			return new BaseResult(ErrorCode.ERR_USER_UNAUTHEN);
+			return new BaseResult(ErrorCode.ERR_USER_UNAUTHEN, "User Unauth");
 		} else if(user.getStatus() == UserStatus.Locked.getCode()) {
 			// 被锁定
 			logger.debug("locked...");
-			return new BaseResult(ErrorCode.ERR_USER_LOCK);
+			return new BaseResult(ErrorCode.ERR_USER_LOCK, "User Been Locked");
 		} else if(user.getStatus() == UserStatus.Deleted.getCode()) {
 			// 被删除
 			logger.debug("deleted...");
-			return new BaseResult(ErrorCode.ERR_USER_DELETE);
+			return new BaseResult(ErrorCode.ERR_USER_DELETE, "User Been Deleted");
 		}
 		
 		// 密码check
@@ -159,7 +140,7 @@ public class UserServiceImpl implements IUserService {
 		if(!EncryptionUtil.match(password, user.getSalt(), user.getPassword())) {
 			// 密码不一致
 			logger.debug("password not match...");
-			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID);
+			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID, "Password Not Match");
 		}
 		
 		// Session信息
@@ -195,6 +176,33 @@ public class UserServiceImpl implements IUserService {
 		}
 		return true;
 	}
+
+	@Override
+	public BaseResult resetPwd(Long uid, String oldPwd, String newPwd) {
+		// 取得用户信息
+		logger.debug("get user...");
+		User user = userDao.get(uid);
+		
+		// 原始密码check
+		logger.debug("check password...");
+		if(null == user || !EncryptionUtil.match(oldPwd, user.getSalt(), user.getPassword())) {
+			// 密码不一致
+			logger.debug("password not match...");
+			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID, "Password Not Match");
+		}
+
+		// 生成密码信息
+		logger.debug("create new user info...");
+		User newUser = registerUser(newPwd);
+		user.setSalt(newUser.getSalt());
+		user.setPassword(newUser.getPassword());
+		
+		// 更新用户信息
+		logger.debug("update user...");
+		userDao.update(user);
+		
+		return new BaseResult(ErrorCode.SUCCESS);
+	}
 	
 	private User registerUser(String password) {
 		// 构造随机数作为salt
@@ -204,7 +212,7 @@ public class UserServiceImpl implements IUserService {
         logger.debug("encrypt password...");
         String enPwd = EncryptionUtil.encrypt(password, salt);
         // 创建用户
-        logger.debug("create User...");
+        logger.debug("create user...");
         User user = new User();
         user.setSalt(salt);
         user.setPassword(enPwd);
@@ -217,57 +225,5 @@ public class UserServiceImpl implements IUserService {
 		UserProfile profile = new UserProfile();
         profile.setUid(uid);
         profileDao.insert(profile);
-	}
-
-	@Override
-	public BaseResult sendCodeByEmail(String email) {
-		// generate validate code
-		logger.debug("generate validate code...");
-		String code = RandomUtil.genDigitalString(6);
-		
-		// send validate code
-		logger.debug("send validate code...");
-		if(!emailService.send("帐号验证", "验证码：" + code + "，有效时间3分钟", email)) {
-			return new BaseResult(ErrorCode.ERR_SVR_EMAIL_EX);
-		}
-		
-		// save validate code
-		logger.debug("save validate code...");
-		VerifyInfo verifyInfo = new VerifyInfo();
-		verifyInfo.setContent(code);
-		verifyInfo.setReceiver(email);
-		verifyInfo.setType(UserType.EMAIL.getCode());
-		verifyInfo.setCreateDate(DateUtil.current());
-		verifyInfo.setExpireDate(DateUtil.dateAfter(DateUtil.current(), 5, Calendar.MINUTE));
-		verifyDao.insert(verifyInfo);
-		
-		return new BaseResult(ErrorCode.SUCCESS);
-	}
-
-	@Override
-	public BaseResult sendCodeByMobile(String mobile) {
-		// generate validate code
-		logger.debug("generate validate code...");
-		String code = RandomUtil.genDigitalString(6);
-		
-		// send validate code
-		logger.debug("send validate code...");
-		Map<String, String> param = new HashMap<String, String>();
-		param.put("code", code);
-		if(!smsService.sendValidation(Arrays.asList(mobile), param)) {
-			return new BaseResult(ErrorCode.ERR_SVR_SMS_EX);
-		}
-
-		// save validate code
-		logger.debug("save validate code...");
-		VerifyInfo verifyInfo = new VerifyInfo();
-		verifyInfo.setContent(code);
-		verifyInfo.setReceiver(mobile);
-		verifyInfo.setType(UserType.MOBILE.getCode());
-		verifyInfo.setCreateDate(DateUtil.current());
-		verifyInfo.setExpireDate(DateUtil.dateAfter(DateUtil.current(), 5, Calendar.MINUTE));
-		verifyDao.insert(verifyInfo);
-		
-		return new BaseResult(ErrorCode.SUCCESS);
 	}
 }

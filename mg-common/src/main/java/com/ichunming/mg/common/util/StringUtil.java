@@ -1,16 +1,57 @@
 package com.ichunming.mg.common.util;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 public class StringUtil {
+	private static final String TEMPLATE_PATH = "/com/ichunming/mg/common/template/";
+	
+	// 邮箱最大长度
+	private static final int EMAIL_MAX_LENGTH = 50;
+	
+	private static final String EMAIL_REG = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+	
+	private static final String MOBILE_REG = "^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
+	
+	// 不能全为数字或字母,长度8-32
+	private static final String PWD_REG = "(?!^\\d+$)(?!^[a-zA-Z]+$).{8,32}";
+	
+	/**
+	 * password check
+	 * @param pwd
+	 * @return
+	 */
+	public static boolean isPassword(String pwd) {
+		if(isEmpty(pwd)) {
+			return false;
+		}
+		
+		Pattern p = Pattern.compile(PWD_REG);// complex
+		Matcher m = p.matcher(pwd);
+		return m.matches();
+	}
+	
+	/**
+	 * email check
+	 * @param email
+	 * @return
+	 */
 	public static boolean isEmail(String email) {
 		if (isEmpty(email)) {
 			return false;
 		}
-		Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");// complex
+		if(email.length() > EMAIL_MAX_LENGTH) {
+			return false;
+		}
+		Pattern p = Pattern.compile(EMAIL_REG);// complex
 		Matcher m = p.matcher(email);
 		return m.matches();
 	}
@@ -32,7 +73,7 @@ public class StringUtil {
 		if (isEmpty(mobile)) {
 			return false;
 		}
-		Pattern p = Pattern.compile("^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$");// complex
+		Pattern p = Pattern.compile(MOBILE_REG);// complex
 
 		Matcher m = p.matcher(mobile);
 		return m.matches();
@@ -71,5 +112,23 @@ public class StringUtil {
 		sb.delete(sb.length() - separator.length(), sb.length());
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * load template
+	 * @param path
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+	public static String loadTemplate(String tplName, Map<String, Object> param) throws Exception {
+		Configuration cfg = new Configuration();
+		ClassTemplateLoader loader = new ClassTemplateLoader(StringUtil.class, TEMPLATE_PATH);
+		cfg.setTemplateLoader(loader);
+		cfg.setDefaultEncoding("UTF-8");
+		Template template = cfg.getTemplate(tplName);
+		StringWriter writer = new StringWriter();
+		template.process(param, writer);
+		return writer.toString();
 	}
 }

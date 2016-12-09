@@ -91,7 +91,7 @@ public class EmailServiceTest extends BaseTest {
 		this.msg = new EmailTplMsgEntity();
 		this.msg.setSubject("Validate");
 		this.msg.setContent("<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /></head><body><p>验证码：<b>${code!''}</b>，有效时间3分钟</p></body></html>");
-		this.msg.setTo("mrspring@126.com");
+		this.msg.setTo("");
 		
 		Map<String, String> attach = new HashMap<String, String>();
 		attach.put("name", "test.txt");
@@ -101,18 +101,11 @@ public class EmailServiceTest extends BaseTest {
 	
 	@Ignore
 	private void mockData() {
-		/*when(config.getHost()).thenReturn("");
+		when(config.getHost()).thenReturn("");
 		when(config.getUsername()).thenReturn("");
 		when(config.getPassword()).thenReturn("");
 		when(config.getFrom()).thenReturn("");
 		when(config.getFromName()).thenReturn("");
-		when(config.getCharset()).thenReturn("");*/
-		
-		when(config.getHost()).thenReturn("smtp.mxhichina.com");
-		when(config.getUsername()).thenReturn("admin@enjoylife.xin");
-		when(config.getPassword()).thenReturn("Jh@#J5L(Vk");
-		when(config.getFrom()).thenReturn("admin@enjoylife.xin");
-		when(config.getFromName()).thenReturn("Team@EL");
-		when(config.getCharset()).thenReturn("utf-8");
+		when(config.getCharset()).thenReturn("");
 	}
 }

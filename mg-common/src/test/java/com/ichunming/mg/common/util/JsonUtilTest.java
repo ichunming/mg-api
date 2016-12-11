@@ -9,38 +9,38 @@ import org.junit.Test;
 
 import com.ichunming.mg.common.util.JsonUtil;
 import com.ichunming.mg.common.util.entity.TestBaseResult;
-import com.ichunming.mg.common.util.entity.UserTest;
+import com.ichunming.mg.common.util.entity.TestUser;
 
 public class JsonUtilTest {
 	
 	@Test
 	public void toJson() {
-		UserTest user = new UserTest("User1", "p1");
+		TestUser user = new TestUser("User1", "p1");
 		String json = JsonUtil.toJson(user);
 		System.out.println(json);
 		
-		UserTest obj = JsonUtil.fromJson(json, UserTest.class);
+		TestUser obj = JsonUtil.fromJson(json, TestUser.class);
 		assertEquals(obj.getName(), user.getName());
 	}
 	
 	@Test
 	public void fromJsonTest() {
-		List<UserTest> users = Arrays.asList(new UserTest("User1", "p1"), new UserTest("User2", "p2"));
+		List<TestUser> users = Arrays.asList(new TestUser("User1", "p1"), new TestUser("User2", "p2"));
 		TestBaseResult ret = new TestBaseResult();
 		ret.setCode(0L);
 		ret.setData(users);
 		String json = JsonUtil.toJson(ret);
 		System.out.println(json);
 		
-		List<UserTest> objs = JsonUtil.fromJson(json, "data", UserTest.class);
+		List<TestUser> objs = JsonUtil.fromJson(json, "data", TestUser.class);
 		assertEquals(objs.size(), users.size());
 	}
 	
 	@Test
 	public void fromJsonExTest() {
-		UserTest obj = JsonUtil.fromJson("not json data", UserTest.class);
-		List<UserTest> objs = JsonUtil.fromJson("{\"code\":0,\"dataEx\":[{\"name\":\"User1\",\"password\":\"p1\"},{\"name\":\"User2\",\"password\":\"p2\"}]}",
-							"data", UserTest.class);
+		TestUser obj = JsonUtil.fromJson("not json data", TestUser.class);
+		List<TestUser> objs = JsonUtil.fromJson("{\"code\":0,\"dataEx\":[{\"name\":\"User1\",\"password\":\"p1\"},{\"name\":\"User2\",\"password\":\"p2\"}]}",
+							"data", TestUser.class);
 		assertNull(obj);
 		assertNull(objs);
 	}

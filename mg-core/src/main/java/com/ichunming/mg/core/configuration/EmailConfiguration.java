@@ -1,21 +1,23 @@
-package com.ichunming.mg.common.util.helper;
+package com.ichunming.mg.core.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.ichunming.mg.entity.EmailOption;
+
 @Component
-public class EmailConfiguration {
-	@Value("#{configProperties['mail.host']}")
+public class EmailConfiguration extends EmailOption {
+	@Value("#{configProperties['email.host']}")
 	private String host;
-	@Value("#{configProperties['mail.username']}")
+	@Value("#{configProperties['email.username']}")
 	private String username;
-	@Value("#{configProperties['mail.password']}")
+	@Value("#{configProperties['email.password']}")
 	private String password;
-	@Value("#{configProperties['mail.from']}")
+	@Value("#{configProperties['email.from']}")
 	private String from;
-	@Value("#{configProperties['mail.fromName']}")
+	@Value("#{configProperties['email.fromName']}")
 	private String fromName;
-	@Value("#{configProperties['mail.charset']}")
+	@Value("#{configProperties['email.charset']}")
 	private String charset;
 	
 	private String verifyCodeSubject = "帐号验证";

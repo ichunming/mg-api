@@ -226,11 +226,12 @@
 		</plugins>
 	</build>
 	<modules>
+		<module>mg-entity</module>
 		<module>mg-dao</module>
+		<module>mg-common</module>
+		<module>mg-vo</module>
+		<module>mg-core</module>
 		<module>mg-service</module>
 		<module>mg-web</module>
-		<module>mg-common</module>
-		<module>mg-entity</module>
-		<module>mg-core</module>
 	</modules>
 </project>

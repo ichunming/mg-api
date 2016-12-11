@@ -18,7 +18,7 @@ import com.ichunming.mg.core.exception.InvalidSessionException;
 import com.ichunming.mg.core.exception.LoadTemplateException;
 import com.ichunming.mg.core.exception.OssServiceException;
 import com.ichunming.mg.core.exception.SmsServiceException;
-import com.ichunming.mg.entity.vo.BaseResult;
+import com.ichunming.mg.vo.BaseResult;
 
 @ControllerAdvice
 public class ExceptionController {

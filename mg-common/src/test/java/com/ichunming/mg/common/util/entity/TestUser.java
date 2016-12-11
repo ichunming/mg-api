@@ -1,13 +1,13 @@
 package com.ichunming.mg.common.util.entity;
 
-public class UserTest {
+public class TestUser {
 	private String id;
 	private String name;
 	private String password;
 
-	public UserTest() {}
+	public TestUser() {}
 	
-	public UserTest(String name, String password) {
+	public TestUser(String name, String password) {
 		this.name = name;
 		this.password = password;
 	}

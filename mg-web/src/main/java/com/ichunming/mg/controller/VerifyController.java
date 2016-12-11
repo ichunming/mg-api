@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ichunming.mg.common.constant.ErrorCode;
 import com.ichunming.mg.common.util.StringUtil;
-import com.ichunming.mg.entity.vo.BaseResult;
 import com.ichunming.mg.service.IVerifyService;
+import com.ichunming.mg.vo.BaseResult;
 
 @Controller
 @ResponseBody

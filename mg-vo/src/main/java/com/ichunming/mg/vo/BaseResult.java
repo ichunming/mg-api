@@ -1,4 +1,4 @@
-package com.ichunming.mg.entity.vo;
+package com.ichunming.mg.vo;
 
 public class BaseResult {
 	private Long code;

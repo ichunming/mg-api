@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.ServiceException;
+import com.ichunming.mg.core.configuration.AliConfiguration;
 
 public class AliOssClientWrapper {
 	

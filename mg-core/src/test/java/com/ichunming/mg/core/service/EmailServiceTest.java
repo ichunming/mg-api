@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import com.ichunming.mg.common.util.helper.EmailConfiguration;
+import com.ichunming.mg.core.configuration.EmailConfiguration;
 import com.ichunming.mg.entity.EmailTplMsgEntity;
 
 public class EmailServiceTest extends BaseTest {

@@ -12,8 +12,8 @@
       <dataSource type="UNPOOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/mgdb"/>
-        <property name="username" value="yimei"/>
-        <property name="password" value="yymm1234"/>
+        <property name="username" value="zhangchunming"/>
+        <property name="password" value="19900201"/>
       </dataSource>
     </environment>
   </environments>

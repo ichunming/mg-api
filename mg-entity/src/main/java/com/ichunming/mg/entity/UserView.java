@@ -1,6 +1,4 @@
-package com.ichunming.mg.model;
-
-import com.ichunming.mg.entity.SessionInfo;
+package com.ichunming.mg.entity;
 
 public class UserView {
 
@@ -21,6 +19,14 @@ public class UserView {
     private String portrait;
 
     private String realName;
+    
+    private String birthday;
+    
+    private String province;
+    
+    private String city;
+    
+    private String address;
 
 	public Long getId() {
 		return id;
@@ -94,15 +100,35 @@ public class UserView {
 		this.realName = realName;
 	}
 	
-	public SessionInfo toSessionInfo() {
-		SessionInfo info = new SessionInfo();
-		info.setEmail(this.email);
-		info.setUid(this.id);
-		info.setMobile(this.mobile);
-		info.setNickname(this.nickname);
-		info.setPortrait(this.portrait);
-		info.setRealName(this.realName);
-		
-		return info;
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

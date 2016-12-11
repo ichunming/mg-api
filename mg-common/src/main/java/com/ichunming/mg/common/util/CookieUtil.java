@@ -4,8 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ichunming.mg.common.constant.SystemConstant;
-
 public class CookieUtil {
 
 	/**
@@ -27,11 +25,11 @@ public class CookieUtil {
 	 * @param response
 	 * @param name
 	 */
-	public void deleteCookie(HttpServletResponse response, String name) {
+	public void deleteCookie(HttpServletResponse response, String name, String domain) {
 		Cookie cookie = new Cookie(name, "");
         // Invalidate the cookie
         cookie.setMaxAge(0);
-        cookie.setDomain(SystemConstant.DOMAIN);
+        cookie.setDomain(domain);
         response.addCookie(cookie);
 	}
 	
@@ -42,9 +40,9 @@ public class CookieUtil {
 	 * @param value
 	 * @param domain
 	 */
-	public static void setCookie(HttpServletResponse response, String name, String value) {
+	public static void setCookie(HttpServletResponse response, String name, String value, String domain) {
         // Save the cookie value for 1 month
-        setCookie(response, name, value, 60 * 60 * 24 * 30);
+        setCookie(response, name, value, 60 * 60 * 24 * 30, domain);
     }
 	
 	/**
@@ -54,7 +52,7 @@ public class CookieUtil {
 	 * @param value
 	 * @param maxAge
 	 */
-	public static void setCookie(HttpServletResponse response, String name, String value, int maxAge) {
+	public static void setCookie(HttpServletResponse response, String name, String value, int maxAge, String domain) {
         if (value == null) {
             value = "";
         }
@@ -62,7 +60,7 @@ public class CookieUtil {
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
-        cookie.setDomain(SystemConstant.DOMAIN);
+        cookie.setDomain(domain);
         response.addCookie(cookie);
     }
 	

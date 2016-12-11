@@ -5,7 +5,8 @@
  */
 package com.ichunming.mg.service;
 
-import com.ichunming.mg.entity.vo.BaseResult;
+import com.ichunming.mg.model.UserProfile;
+import com.ichunming.mg.vo.BaseResult;
 
 public interface IUserService {
 
@@ -34,6 +35,13 @@ public interface IUserService {
 	public BaseResult login(String username, String password);
 
 	/**
+	 * 用户信息取得
+	 * @param uid
+	 * @return
+	 */
+	public BaseResult getProfile(Long uid);
+	
+	/**
 	 * 用户信息保存
 	 * @param email
 	 * @param mobile
@@ -41,7 +49,7 @@ public interface IUserService {
 	 * @param realname
 	 * @return
 	 */
-	public BaseResult saveProfile(String email, String mobile, String nickname, String realname);
+	public void saveProfile(UserProfile profile);
 	
 	/**
 	 * 用户头像上传

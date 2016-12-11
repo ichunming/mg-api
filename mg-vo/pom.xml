@@ -1,27 +1,25 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>mg-service</artifactId>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>mg-vo</artifactId>
 	<packaging>jar</packaging>
-	<name>mg-service</name>
+	<name>mg-vo</name>
 	<parent>
 		<groupId>com.ichunming</groupId>
 		<artifactId>mg-api</artifactId>
 		<version>0.1</version>
 	</parent>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.ichunming</groupId>
-			<artifactId>mg-core</artifactId>
+			<artifactId>mg-dao</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.ichunming</groupId>
-			<artifactId>mg-vo</artifactId>
+			<artifactId>mg-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

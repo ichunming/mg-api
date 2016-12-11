@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ichunming.mg.common.util.EmailUtil;
-import com.ichunming.mg.common.util.helper.EmailConfiguration;
+import com.ichunming.mg.core.configuration.EmailConfiguration;
 import com.ichunming.mg.core.exception.EmailServiceException;
 import com.ichunming.mg.entity.EmailTplMsgEntity;
 

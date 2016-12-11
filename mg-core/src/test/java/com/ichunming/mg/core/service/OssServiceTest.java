@@ -6,7 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ichunming.mg.common.constant.BucketType;
-import com.ichunming.mg.core.helper.AliConfiguration;
+import com.ichunming.mg.core.configuration.AliConfiguration;
 
 public class OssServiceTest {
 	private OssService target;

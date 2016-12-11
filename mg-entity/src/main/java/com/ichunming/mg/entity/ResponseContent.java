@@ -1,4 +1,4 @@
-package com.ichunming.mg.common.util.helper;
+package com.ichunming.mg.entity;
 
 public class ResponseContent {
 

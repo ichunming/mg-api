@@ -1,4 +1,4 @@
-package com.ichunming.mg.core.helper;
+package com.ichunming.mg.core.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

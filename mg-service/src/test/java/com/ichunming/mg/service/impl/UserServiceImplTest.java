@@ -1,9 +1,9 @@
 package com.ichunming.mg.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 import org.junit.Ignore;
@@ -16,9 +16,9 @@ import com.ichunming.mg.common.constant.ErrorCode;
 import com.ichunming.mg.common.constant.UserStatus;
 import com.ichunming.mg.dao.UserDao;
 import com.ichunming.mg.dao.UserProfileDao;
-import com.ichunming.mg.entity.vo.BaseResult;
-import com.ichunming.mg.model.UserView;
+import com.ichunming.mg.entity.UserView;
 import com.ichunming.mg.service.BaseTest;
+import com.ichunming.mg.vo.BaseResult;
 
 public class UserServiceImplTest extends BaseTest{
 	@InjectMocks
@@ -156,7 +156,7 @@ public class UserServiceImplTest extends BaseTest{
 		when(userDao.getCntByEmail(Mockito.anyString())).thenReturn(1);
 		
 		// test method
-		boolean result = target.isEmailExist("test@test.com");
+		boolean result = target.isEmailExist(EMAIL);
 		
 		// verify result
 		assertTrue(result);
@@ -170,7 +170,7 @@ public class UserServiceImplTest extends BaseTest{
 		when(userDao.getCntByEmail(Mockito.anyString())).thenReturn(0);
 		
 		// test method
-		boolean result = target.isEmailExist("test@test.com");
+		boolean result = target.isEmailExist(EMAIL);
 		
 		// verify result
 		assertFalse(result);
@@ -184,7 +184,7 @@ public class UserServiceImplTest extends BaseTest{
 		when(userDao.getCntByMobile(Mockito.anyString())).thenReturn(1);
 		
 		// test method
-		boolean result = target.isMobileExist("13761104110");
+		boolean result = target.isMobileExist(MOBILE);
 		
 		// verify result
 		assertTrue(result);
@@ -198,7 +198,7 @@ public class UserServiceImplTest extends BaseTest{
 		when(userDao.getCntByMobile(Mockito.anyString())).thenReturn(0);
 		
 		// test method
-		boolean result = target.isMobileExist("13761104110");
+		boolean result = target.isMobileExist(MOBILE);
 		
 		// verify result
 		assertFalse(result);

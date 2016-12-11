@@ -20,7 +20,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ichunming.mg.common.util.ExcelUtil;
-import com.ichunming.mg.common.util.entity.UserTest;
+import com.ichunming.mg.common.util.entity.TestUser;
 
 public class ExcelUtilTest {
 
@@ -28,7 +28,7 @@ public class ExcelUtilTest {
     public void writeTest()
     {
     	// prepared data
-    	List<UserTest> users = Arrays.asList(new UserTest("ming", "1234"), new UserTest("ning", "1234"));
+    	List<TestUser> users = Arrays.asList(new TestUser("ming", "1234"), new TestUser("ning", "1234"));
     	
     	// -----------------------------------
     	
@@ -58,7 +58,7 @@ public class ExcelUtilTest {
 		ExcelUtil.writeLine(line++, recode);
 		
 		// write recode
-		for(UserTest user : users) {
+		for(TestUser user : users) {
 			recode.clear();
 			setRecode(recode, line, user);
 			ExcelUtil.setRowStyle(line, dataStyle);
@@ -100,7 +100,7 @@ public class ExcelUtilTest {
     	POIFSFileSystem fs = null; // file
     	HSSFWorkbook wb = null; // workbook
 		Sheet sheet = null; // excel sheet
-		List<UserTest> users = null;
+		List<TestUser> users = null;
 		
 		try {
 			// load file
@@ -113,10 +113,10 @@ public class ExcelUtilTest {
 	        // set ExcelUtil target
 	        ExcelUtil.setTarget(wb, sheet);
 	        // convert to object
-	        users = ExcelUtil.convertToList(UserTest.class);
+	        users = ExcelUtil.convertToList(TestUser.class);
 	        
 	        // print user
-	        for(UserTest user : users) {
+	        for(TestUser user : users) {
 	        	System.out.println(user.toString());
 	        }
 		} catch (IOException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
@@ -133,7 +133,7 @@ public class ExcelUtilTest {
     }
     
     @Ignore
-    private void setRecode(Map<Integer, String> recode, int line, UserTest user) {
+    private void setRecode(Map<Integer, String> recode, int line, TestUser user) {
     	recode.put(0, "" + line);
     	recode.put(1, user.getName());
     	recode.put(2, user.getPassword());

@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.ichunming.mg.entity.UserView;
 import com.ichunming.mg.model.User;
-import com.ichunming.mg.model.UserView;
 
 public class UseDaoTest extends BaseTest {
 	@Before

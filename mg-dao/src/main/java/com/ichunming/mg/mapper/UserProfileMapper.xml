@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ichunming.mg.dao.UserProfileDao" >
-  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.UserProfile" >
-    <result column="uid" property="uid" jdbcType="BIGINT" />
-    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
-    <result column="portrait" property="portrait" jdbcType="VARCHAR" />
-    <result column="real_name" property="realName" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.UserProfile">
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="portrait" jdbcType="VARCHAR" property="portrait" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    uid, nickname, portrait, real_name, create_date, update_date
+    uid, nickname, portrait, real_name, birthday, province, city, address, create_date, update_date
   </sql>
   
   <insert id="insert" parameterType="com.ichunming.mg.model.UserProfile">
@@ -19,4 +23,33 @@
     values (#{uid,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{portrait,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, now(), now())
   </insert>
+  
+  <update id="update" parameterType="com.ichunming.mg.model.UserProfile">
+     update user_profile
+    <set >
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null">
+        portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      update_date = now()
+    </set>
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -11,13 +11,13 @@ import org.apache.commons.mail.EmailException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ichunming.mg.common.util.helper.EmailConfiguration;
+import com.ichunming.mg.entity.EmailOption;
 
 /**
  * Unit test for simple App.
  */
 public class EmailUtilTest {
-	private static EmailConfiguration config;
+	private static EmailOption config;
 	
 	private static String subject;
 	
@@ -40,7 +40,7 @@ public class EmailUtilTest {
 		attach.put("path", "D:\\temp\\test.txt");
 		attachs.add(attach);
 		
-		config = new EmailConfiguration();
+		config = new EmailOption();
 		config.setHost("");
 		config.setUsername("");
 		config.setPassword("");

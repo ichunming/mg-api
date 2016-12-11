@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.aliyuncs.exceptions.ClientException;
 import com.ichunming.mg.common.util.JsonUtil;
 import com.ichunming.mg.common.util.StringUtil;
-import com.ichunming.mg.core.helper.AliConfiguration;
+import com.ichunming.mg.core.configuration.AliConfiguration;
 import com.ichunming.mg.core.helper.AliSmsClientWrapper;
 
 @Service

@@ -10,6 +10,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.aliyuncs.sms.model.v20160927.SingleSendSmsRequest;
 import com.ichunming.mg.common.util.StringUtil;
+import com.ichunming.mg.core.configuration.AliConfiguration;
 
 public class AliSmsClientWrapper {
 

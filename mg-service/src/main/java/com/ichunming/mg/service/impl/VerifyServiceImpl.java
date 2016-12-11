@@ -15,15 +15,15 @@ import com.ichunming.mg.common.constant.UserType;
 import com.ichunming.mg.common.util.DateUtil;
 import com.ichunming.mg.common.util.RandomUtil;
 import com.ichunming.mg.common.util.StringUtil;
-import com.ichunming.mg.common.util.helper.EmailConfiguration;
+import com.ichunming.mg.core.configuration.EmailConfiguration;
 import com.ichunming.mg.core.exception.LoadTemplateException;
 import com.ichunming.mg.core.service.EmailService;
 import com.ichunming.mg.core.service.SmsService;
 import com.ichunming.mg.dao.VerifyInfoDao;
 import com.ichunming.mg.entity.EmailTplMsgEntity;
-import com.ichunming.mg.entity.vo.BaseResult;
 import com.ichunming.mg.model.VerifyInfo;
 import com.ichunming.mg.service.IVerifyService;
+import com.ichunming.mg.vo.BaseResult;
 
 @Service
 public class VerifyServiceImpl implements IVerifyService {

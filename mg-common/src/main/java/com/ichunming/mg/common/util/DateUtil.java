@@ -1,5 +1,6 @@
 package com.ichunming.mg.common.util;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -68,5 +69,21 @@ public class DateUtil {
 		calendar.setTime(origDate);
 		calendar.add(timeUnit, -amount);
 		return calendar.getTime();
+	}
+	
+	/**
+	 * 将字符串形式的日期表示解析为日期对象
+	 * 
+	 * @param dateString
+	 * @return
+	 */
+	public static Date parseDate(String dateString) {
+		try {
+			return org.apache.commons.lang3.time.DateUtils.parseDate(
+					dateString, new String[] { "yyyy-MM-dd", "yyyy-M-d",
+							"yyyy-MM-d", "yyyy-M-dd", "yyyyMMdd" });
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 }

@@ -24,9 +24,13 @@ import com.ichunming.mg.common.constant.SystemConstant;
 import com.ichunming.mg.common.util.CookieUtil;
 import com.ichunming.mg.common.util.SessionUtil;
 import com.ichunming.mg.common.util.StringUtil;
+import com.ichunming.mg.core.configuration.ApiConfiguration;
 import com.ichunming.mg.entity.SessionInfo;
-import com.ichunming.mg.entity.vo.BaseResult;
+import com.ichunming.mg.entity.UserView;
+import com.ichunming.mg.model.UserProfile;
 import com.ichunming.mg.service.IUserService;
+import com.ichunming.mg.vo.BaseResult;
+import com.ichunming.mg.vo.UserProfileVo;
 
 @Controller
 @ResponseBody
@@ -36,6 +40,9 @@ public class UserController {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private ApiConfiguration apiConfig;
 	
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public BaseResult register(String username, String password, String code) {
@@ -82,16 +89,18 @@ public class UserController {
 		if(result.getCode().longValue() == ErrorCode.SUCCESS.longValue()) {
 			// 保存SessionInfo
 			logger.debug("save session info...");
-			SessionInfo sessionInfo = (SessionInfo)result.getData();
+			UserView user = (UserView)result.getData();
+			SessionInfo sessionInfo = new SessionInfo();
+			sessionInfo.fromView(user);
 			SessionUtil.setSessionInfo(sessionInfo, request);
 			
 			// 保存cookie
 			try {
-				if(!StringUtil.isEmpty(sessionInfo.getNickname())) {
-					CookieUtil.setCookie(response, SystemConstant.DEFAULT_COOKIES_NICKNAME,  URLEncoder.encode(sessionInfo.getNickname(), "utf-8"));
+				if(!StringUtil.isEmpty(user.getNickname())) {
+					CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
 				}
-				if(!StringUtil.isEmpty(sessionInfo.getPortrait())) {
-					CookieUtil.setCookie(response, SystemConstant.DEFAULT_COOKIES_HEADIMG,  URLEncoder.encode(sessionInfo.getPortrait(), "utf-8"));
+				if(!StringUtil.isEmpty(user.getPortrait())) {
+					CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
 				}
 			} catch (Exception e) {
 				logger.debug("set cookie fail.", e);
@@ -121,19 +130,45 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "profile/get", method = RequestMethod.POST)
-	public BaseResult getProfile() {
+	public BaseResult getProfile(HttpServletRequest request) {
 		// 用户信息取得
 		logger.debug("get user profile...");
-		// TODO
-		return new BaseResult(ErrorCode.SUCCESS);
+
+		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
+		
+		return userService.getProfile(sessionInfo.getUid());
 	}
 	
 	@RequestMapping(value = "profile/save", method = RequestMethod.POST)
-	public BaseResult saveProfile(String email, String mobile, String nickname, String realname) {
+	public BaseResult saveProfile(UserProfileVo profileVo, HttpServletRequest request, HttpServletResponse response) {
 		// 用户信息保存
 		logger.debug("save user profile...");
-		// TODO
-		return null;
+		
+		// 参数check
+		logger.debug("check parameter...");
+		String checkResult = profileVo.check();
+		if(!StringUtil.isEmpty(checkResult)) {
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, checkResult);
+		}
+		
+		// 保存信息
+		logger.debug("save profile...");
+		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
+		UserProfile profile = profileVo.toUserProfile();
+		profile.setUid(sessionInfo.getUid());
+		userService.saveProfile(profile);
+		
+		// 更新cookie
+		logger.debug("update cookie...");
+		try {
+			if(!StringUtil.isEmpty(profileVo.getNickname())) {
+				CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(profileVo.getNickname(), "utf-8"), apiConfig.getDomainUrl());
+			}
+		} catch (Exception e) {
+			logger.debug("set cookie fail.", e);
+		}
+		
+		return new BaseResult(ErrorCode.SUCCESS);
 	}
 
 	@RequestMapping(value = "profile/portrait/upload", method = RequestMethod.POST)

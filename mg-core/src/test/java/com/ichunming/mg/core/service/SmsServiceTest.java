@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.ichunming.mg.core.helper.AliConfiguration;
+import com.ichunming.mg.core.configuration.AliConfiguration;
 
 public class SmsServiceTest {
 	private SmsService target;

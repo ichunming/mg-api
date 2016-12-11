@@ -1,7 +1,7 @@
 package com.ichunming.mg.dao;
 
+import com.ichunming.mg.entity.UserView;
 import com.ichunming.mg.model.User;
-import com.ichunming.mg.model.UserView;
 
 public interface UserDao extends GenericDao<User, Long> {
 	/**
@@ -17,6 +17,13 @@ public interface UserDao extends GenericDao<User, Long> {
 	 * @return
 	 */
 	public User getByMobile(String mobile);
+	
+	/**
+	 * 通过uid查找用户View
+	 * @param uid
+	 * @return
+	 */
+	public UserView getView(Long uid);
 	
 	/**
 	 * 通过用户名查找用户View--邮箱/手机

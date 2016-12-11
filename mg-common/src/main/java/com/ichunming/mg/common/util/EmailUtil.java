@@ -15,7 +15,7 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.ichunming.mg.common.util.helper.EmailConfiguration;
+import com.ichunming.mg.entity.EmailOption;
 
 public class EmailUtil {
 	
@@ -38,8 +38,8 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean send(EmailConfiguration config, String subject, String content, String to) throws EmailException {
-		SimpleEmail email = (SimpleEmail) createEmail(config, SIMPLE_MAIL);
+	public static boolean send(EmailOption option, String subject, String content, String to) throws EmailException {
+		SimpleEmail email = (SimpleEmail) createEmail(option, SIMPLE_MAIL);
         // 封装mail
         encapMail(email, subject, content, to, SIMPLE_MAIL);
         // 发送邮件
@@ -57,8 +57,8 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean send(EmailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
-		MultiPartEmail email = (MultiPartEmail) createEmail(config, MULTIPART_MAIL);
+	public static boolean send(EmailOption option, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
+		MultiPartEmail email = (MultiPartEmail) createEmail(option, MULTIPART_MAIL);
 		// 封装mail
     	encapMail(email, subject, content, to, MULTIPART_MAIL);
         // 添加附件
@@ -71,15 +71,15 @@ public class EmailUtil {
 	
 	/**
 	 * 发送html格式邮件
-	 * @param config
+	 * @param option
 	 * @param subject
 	 * @param content
 	 * @param to
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean sendHtml(EmailConfiguration config, String subject, String content, String to) throws EmailException {
-		HtmlEmail email = (HtmlEmail) createEmail(config, HTML_MAIL);
+	public static boolean sendHtml(EmailOption option, String subject, String content, String to) throws EmailException {
+		HtmlEmail email = (HtmlEmail) createEmail(option, HTML_MAIL);
 		// 封装mail
     	encapMail(email, subject, content, to, HTML_MAIL);
     	// 发送邮件
@@ -90,7 +90,7 @@ public class EmailUtil {
 	
 	/**
 	 * 发送带有附件的html格式邮件
-	 * @param config
+	 * @param option
 	 * @param subject
 	 * @param content
 	 * @param to
@@ -98,8 +98,8 @@ public class EmailUtil {
 	 * @return
 	 * @throws EmailException 
 	 */
-	public static boolean sendHtml(EmailConfiguration config, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
-		HtmlEmail email = (HtmlEmail) createEmail(config, HTML_MAIL);
+	public static boolean sendHtml(EmailOption option, String subject, String content, String to, List<Map<String, String>> attachs) throws EmailException {
+		HtmlEmail email = (HtmlEmail) createEmail(option, HTML_MAIL);
 		// 封装mail
     	encapMail(email, subject, content, to, HTML_MAIL);
         // 添加附件
@@ -112,12 +112,12 @@ public class EmailUtil {
 	
 	/**
 	 * 创建Email
-	 * @param config
+	 * @param option
 	 * @param type
 	 * @return
 	 * @throws EmailException
 	 */
-	private static Email createEmail(EmailConfiguration config, short type) throws EmailException {
+	private static Email createEmail(EmailOption option, short type) throws EmailException {
 		Email email;
 		if(type == SIMPLE_MAIL) {
 			email = new SimpleEmail();
@@ -126,10 +126,10 @@ public class EmailUtil {
 		} else {
 			email = new HtmlEmail();
 		}
-		email.setHostName(config.getHost()); // 发送服务器
-        email.setAuthentication(config.getUsername(), config.getPassword()); // 发送邮件的用户名和密码  
-        email.setCharset(StringUtil.isEmpty(config.getCharset()) ? DEFAULT_CHARSET : config.getCharset()); //邮件编码方式
-        email.setFrom(config.getFrom(), config.getFromName()); // 发送邮箱
+		email.setHostName(option.getHost()); // 发送服务器
+        email.setAuthentication(option.getUsername(), option.getPassword()); // 发送邮件的用户名和密码  
+        email.setCharset(StringUtil.isEmpty(option.getCharset()) ? DEFAULT_CHARSET : option.getCharset()); //邮件编码方式
+        email.setFrom(option.getFrom(), option.getFromName()); // 发送邮箱
 		return email;
 	}
 	

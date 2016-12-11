@@ -1,6 +1,6 @@
 package com.ichunming.mg.service;
 
-import com.ichunming.mg.entity.vo.BaseResult;
+import com.ichunming.mg.vo.BaseResult;
 
 public interface IVerifyService {
 	/**

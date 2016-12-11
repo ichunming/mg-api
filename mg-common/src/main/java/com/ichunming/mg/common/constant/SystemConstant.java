@@ -4,8 +4,6 @@ public class SystemConstant {
 	
 	public static final String SESSION_INFO_NAME = "MG-D15-M11-NAME";
 	
-	public static final String DEFAULT_COOKIES_NICKNAME = "MG-COOKIES-NICKNAME";
-	public static final String DEFAULT_COOKIES_HEADIMG = "MG-COOKIES-HEADIMAGE";
-	
-	public static final String DOMAIN = "test.domain.com";
+	public static final String COOKIES_NICKNAME_NAME = "MG-COOKIES-NICKNAME";
+	public static final String COOKIES_HEADIMG_NAME = "MG-COOKIES-HEADIMAGE";
 }

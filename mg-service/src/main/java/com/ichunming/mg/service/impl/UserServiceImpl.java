@@ -17,13 +17,13 @@ import com.ichunming.mg.common.util.EncryptionUtil;
 import com.ichunming.mg.common.util.RandomUtil;
 import com.ichunming.mg.dao.UserDao;
 import com.ichunming.mg.dao.UserProfileDao;
-import com.ichunming.mg.entity.SessionInfo;
-import com.ichunming.mg.entity.vo.BaseResult;
+import com.ichunming.mg.entity.UserView;
 import com.ichunming.mg.model.User;
 import com.ichunming.mg.model.UserProfile;
-import com.ichunming.mg.model.UserView;
 import com.ichunming.mg.service.IUserService;
 import com.ichunming.mg.service.IVerifyService;
+import com.ichunming.mg.vo.BaseResult;
+import com.ichunming.mg.vo.UserProfileVo;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -144,15 +144,25 @@ public class UserServiceImpl implements IUserService {
 		}
 		
 		// Session信息
-		logger.debug("create session info...");
-		SessionInfo sessionInfo = user.toSessionInfo();
-		return new BaseResult(ErrorCode.SUCCESS, sessionInfo);
+		//logger.debug("create session info...");
+		//SessionInfo sessionInfo = user.toSessionInfo();
+		return new BaseResult(ErrorCode.SUCCESS, user);
 	}
 
 	@Override
-	public BaseResult saveProfile(String email, String mobile, String nickname, String realname) {
-		// TODO Auto-generated method stub
-		return null;
+	public BaseResult getProfile(Long uid) {
+		// 取得用户Profile
+		logger.debug("get user profile...");
+		UserProfileVo profileVo = new UserProfileVo();
+		profileVo.fromView(userDao.getView(uid));
+		return new BaseResult(ErrorCode.SUCCESS, profileVo);
+	}
+	
+	@Override
+	public void saveProfile(UserProfile profile) {
+		// 保存用户信息
+		logger.debug("save user profile...");
+		profileDao.update(profile);
 	}
 
 	@Override

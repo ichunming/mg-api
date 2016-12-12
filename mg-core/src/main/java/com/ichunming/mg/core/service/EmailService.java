@@ -1,6 +1,6 @@
 /**
  * email service
- * create by ming 2016/11/18
+ * ming 2016/11/18
  */
 package com.ichunming.mg.core.service;
 

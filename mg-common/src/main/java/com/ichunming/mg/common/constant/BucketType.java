@@ -2,7 +2,7 @@ package com.ichunming.mg.common.constant;
 
 public enum BucketType {
 	FILE("FILE", "file storage"),
-	PIC("PICTURE", "picture storage"),
+	IMAGE("IMAGE", "picture storage"),
 	AUDIO("AUDIO", "audio storage"),
 	VIDEO("VIDEO", "video storage"),
 	OTHER("OTHER", "other storage");

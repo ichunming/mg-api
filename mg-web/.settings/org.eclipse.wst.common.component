@@ -16,10 +16,10 @@
         <dependent-module archiveName="mg-entity-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mg-entity/mg-entity">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="mg-vo-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mg-vo/mg-vo">
+        <dependent-module archiveName="mg-dao-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mg-dao/mg-dao">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="mg-dao-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mg-dao/mg-dao">
+        <dependent-module archiveName="mg-vo-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mg-vo/mg-vo">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/mg-web/target/classes"/>

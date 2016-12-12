@@ -1,3 +1,7 @@
+/**
+ * UserController
+ * ming 2016/11/15
+ */
 package com.ichunming.mg.controller;
 
 import javax.servlet.http.HttpServletRequest;

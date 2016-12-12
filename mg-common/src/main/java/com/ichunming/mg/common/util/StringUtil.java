@@ -1,8 +1,10 @@
 package com.ichunming.mg.common.util;
 
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -112,6 +114,22 @@ public class StringUtil {
 		sb.delete(sb.length() - separator.length(), sb.length());
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * String转List
+	 * @param str
+	 * @param separator
+	 * @return
+	 */
+	public static List<String> toList(String str, String separator) {
+		if(isEmpty(str)) {
+			return null;
+		}
+		
+		String[] list = str.split(separator);
+		
+		return Arrays.asList(list);
 	}
 	
 	/**

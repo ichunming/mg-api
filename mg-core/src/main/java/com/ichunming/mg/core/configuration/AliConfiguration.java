@@ -21,10 +21,10 @@ public class AliConfiguration {
 	private String ossBktFileName;
 	@Value("#{configProperties['ali.oss.bucket.file.url']}")
 	private String ossBktFileUrl;
-	@Value("#{configProperties['ali.oss.bucket.pic.name']}")
-	private String ossBktPicName;
-	@Value("#{configProperties['ali.oss.bucket.pic.url']}")
-	private String ossBktPicUrl;
+	@Value("#{configProperties['ali.oss.bucket.image.name']}")
+	private String ossBktImageName;
+	@Value("#{configProperties['ali.oss.bucket.image.url']}")
+	private String ossBktImageUrl;
 	@Value("#{configProperties['ali.oss.bucket.audio.name']}")
 	private String ossBktAudioName;
 	@Value("#{configProperties['ali.oss.bucket.audio.url']}")
@@ -86,17 +86,17 @@ public class AliConfiguration {
 	public void setOssBktFileUrl(String ossBktFileUrl) {
 		this.ossBktFileUrl = ossBktFileUrl;
 	}
-	public String getOssBktPicName() {
-		return ossBktPicName;
+	public String getOssBktImageName() {
+		return ossBktImageName;
 	}
-	public void setOssBktPicName(String ossBktPicName) {
-		this.ossBktPicName = ossBktPicName;
+	public void setOssBktImageName(String ossBktImageName) {
+		this.ossBktImageName = ossBktImageName;
 	}
-	public String getOssBktPicUrl() {
-		return ossBktPicUrl;
+	public String getOssBktImageUrl() {
+		return ossBktImageUrl;
 	}
-	public void setOssBktPicUrl(String ossBktPicUrl) {
-		this.ossBktPicUrl = ossBktPicUrl;
+	public void setOssBktImageUrl(String ossBktImageUrl) {
+		this.ossBktImageUrl = ossBktImageUrl;
 	}
 	public String getOssBktAudioName() {
 		return ossBktAudioName;

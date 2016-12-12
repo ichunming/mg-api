@@ -19,6 +19,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.ichunming</groupId>
+			<artifactId>mg-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>2.4.2</version>

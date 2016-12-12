@@ -26,9 +26,12 @@ public class ErrorCode {
 	public static final Long ERR_USER_VERIFY_CODE_INVALID = 2009L;
 	public static final Long ERR_USER_VERIFY_CODE_OVERDUE = 2010L;
 	public static final Long ERR_USER_SEND_SMS_FREQUENT = 2011L;
+	public static final Long ERR_USER_UPLOAD_TYPE_LIMIT = 2012L;
+	public static final Long ERR_USER_UPLOAD_SIZE_LIMIT = 2013L;
 	
 	// 服务级错误码
 	public static final Long ERR_SVR_SMS_ERROR = 4001L;
 	public static final Long ERR_SVR_EMAIL_ERROR = 4002L;
 	public static final Long ERR_SVR_OSS_ERROR = 4003L;
+	public static final Long ERR_SVR_FILE_ERROR = 4004L;
 }

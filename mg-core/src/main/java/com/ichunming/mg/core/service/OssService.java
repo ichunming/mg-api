@@ -1,7 +1,6 @@
 /**
  * User Service
- * 2016/10/09 ming
- * v0.1
+ * ming 2016/10/09
  */
 package com.ichunming.mg.core.service;
 
@@ -39,7 +38,7 @@ public class OssService {
 		
 		//add module
 		ossClientMap.put(BucketType.FILE.getKey(), new AliOssClientWrapper(config, config.getOssBktFileName(), config.getOssBktFileUrl()));
-		ossClientMap.put(BucketType.PIC.getKey(), new AliOssClientWrapper(config, config.getOssBktPicName(), config.getOssBktPicUrl()));
+		ossClientMap.put(BucketType.IMAGE.getKey(), new AliOssClientWrapper(config, config.getOssBktImageName(), config.getOssBktImageUrl()));
 		ossClientMap.put(BucketType.AUDIO.getKey(), new AliOssClientWrapper(config, config.getOssBktAudioName(), config.getOssBktAudioUrl()));
 		ossClientMap.put(BucketType.VIDEO.getKey(), new AliOssClientWrapper(config, config.getOssBktVideoName(), config.getOssBktVideoUrl()));
 		ossClientMap.put(BucketType.OTHER.getKey(), new AliOssClientWrapper(config, config.getOssBktOtherName(), config.getOssBktOtherUrl()));

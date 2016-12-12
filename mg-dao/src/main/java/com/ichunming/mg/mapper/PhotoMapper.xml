@@ -18,4 +18,11 @@
     id, author, introduce, src, tag, viewCnt, likeCnt, replyCnt, createDate, updateDate, 
     status
   </sql>
+  
+  <select id="getByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from photo
+    where src like CONCAT('%','#{name,jdbcType=VARCHAR}')
+  </select>
 </mapper>

@@ -1,5 +1,5 @@
 /**短信发送Service
- * create by ming 2016/11/24
+ * ming 2016/11/24
  */
 package com.ichunming.mg.core.service;
 

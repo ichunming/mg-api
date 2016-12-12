@@ -1,7 +1,6 @@
 /**
  * UserController
- * create by ming 2016/11/15
- * v0.1
+ * ming 2016/11/15
  */
 package com.ichunming.mg.controller;
 

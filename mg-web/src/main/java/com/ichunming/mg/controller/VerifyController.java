@@ -1,3 +1,7 @@
+/**
+ * VerifyController
+ * ming 2016/12/11
+ */
 package com.ichunming.mg.controller;
 
 import org.slf4j.Logger;

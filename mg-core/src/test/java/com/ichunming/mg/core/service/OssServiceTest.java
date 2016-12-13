@@ -19,7 +19,7 @@ public class OssServiceTest {
 		prepareData();
 		
 		// test method
-		String result = target.post(BucketType.PIC.getKey(), "test", "D:\\Share\\01.jpg");
+		String result = target.post(BucketType.IMAGE.getKey(), "test", "D:\\Share\\01.jpg");
 		
 		// verify result
 		assertNotNull(result);
@@ -32,7 +32,7 @@ public class OssServiceTest {
 		prepareData();
 		
 		// test method
-		target.delete(BucketType.PIC.getKey(), "test");
+		target.delete(BucketType.IMAGE.getKey(), "test");
 		
 		// verify result
 	}
@@ -43,8 +43,8 @@ public class OssServiceTest {
 		this.config.setEndpoint("");
 		this.config.setAccessKeyId("");
 		this.config.setAccessKeySecret("");
-		this.config.setOssBktPicName("");
-		this.config.setOssBktPicUrl("");
+		this.config.setOssBktImageName("");
+		this.config.setOssBktImageUrl("");
 		
 		this.target = new OssService();
 		target.setConfig(config);

@@ -27,6 +27,11 @@
     <!-- 扩充注解驱动，可以将请 求参 器参数 -->
     <mvc:annotation-driven />
     
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="209715200" /> <!-- 200M -->
+	</bean>
+    
     <!-- 静态资源配置 -->
     <mvc:resources location="/htm/" mapping="/htm/**"/>
     <mvc:resources location="/img/" mapping="/img/**"/>

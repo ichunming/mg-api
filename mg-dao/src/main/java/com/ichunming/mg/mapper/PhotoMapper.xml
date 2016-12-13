@@ -147,6 +147,6 @@
     select 
     <include refid="Base_Column_List" />
     from photo
-    where src like CONCAT('%','#{name,jdbcType=VARCHAR}')
+    where src like CONCAT('%', #{name,jdbcType=VARCHAR})
   </select>
 </mapper>

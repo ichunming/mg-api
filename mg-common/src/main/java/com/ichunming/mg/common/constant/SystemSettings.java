@@ -6,4 +6,7 @@ public class SystemSettings {
 	
 	// 临时目录
 	public static final String TEMP_DIR = "temp";
+	
+	// 默认头像
+	public static final String DEFAULT_PORTRAIT = "";
 }

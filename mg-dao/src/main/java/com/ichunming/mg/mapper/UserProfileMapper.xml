@@ -18,10 +18,84 @@
     uid, nickname, portrait, real_name, birthday, province, city, address, create_date, update_date
   </sql>
   
-  <insert id="insert" parameterType="com.ichunming.mg.model.UserProfile">
-    insert into user_profile (uid, nickname, portrait, real_name, create_date, update_date)
-    values (#{uid,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{portrait,jdbcType=VARCHAR}, 
-      #{realName,jdbcType=VARCHAR}, now(), now())
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_profile
+    where uid = #{uid,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from user_profile
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ichunming.mg.model.UserProfile" >
+    insert into user_profile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="portrait != null" >
+        portrait,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null" >
+        #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
   </insert>
   
   <update id="update" parameterType="com.ichunming.mg.model.UserProfile">
@@ -48,7 +122,12 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      update_date = now()
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where uid = #{uid,jdbcType=BIGINT}
   </update>

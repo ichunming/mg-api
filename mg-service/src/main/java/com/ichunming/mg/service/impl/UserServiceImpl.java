@@ -5,6 +5,8 @@
  */
 package com.ichunming.mg.service.impl;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ichunming.mg.common.constant.ErrorCode;
 import com.ichunming.mg.common.constant.UserStatus;
 import com.ichunming.mg.common.constant.UserType;
+import com.ichunming.mg.common.util.DateUtil;
 import com.ichunming.mg.common.util.EncryptionUtil;
 import com.ichunming.mg.common.util.RandomUtil;
 import com.ichunming.mg.dao.UserDao;
@@ -191,7 +194,7 @@ public class UserServiceImpl implements IUserService {
 	public BaseResult resetPwd(Long uid, String oldPwd, String newPwd) {
 		// 取得用户信息
 		logger.debug("get user...");
-		User user = userDao.get(uid);
+		User user = userDao.select(uid);
 		
 		// 原始密码check
 		logger.debug("check password...");
@@ -206,6 +209,7 @@ public class UserServiceImpl implements IUserService {
 		User newUser = registerUser(newPwd);
 		user.setSalt(newUser.getSalt());
 		user.setPassword(newUser.getPassword());
+		user.setUpdateDate(DateUtil.current());
 		
 		// 更新用户信息
 		logger.debug("update user...");
@@ -223,17 +227,24 @@ public class UserServiceImpl implements IUserService {
         String enPwd = EncryptionUtil.encrypt(password, salt);
         // 创建用户
         logger.debug("create user...");
+        Date current = DateUtil.current();
         User user = new User();
         user.setSalt(salt);
         user.setPassword(enPwd);
         user.setStatus(UserStatus.Active.getCode());
+        user.setCreateDate(current);
+        user.setUpdateDate(current);
         
         return user;
 	}
 	
 	private void createProfile(Long uid) {
 		UserProfile profile = new UserProfile();
+		Date current = DateUtil.current();
         profile.setUid(uid);
+        profile.setCreateDate(current);
+        profile.setUpdateDate(current);
+        
         profileDao.insert(profile);
 	}
 }

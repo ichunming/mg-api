@@ -13,7 +13,122 @@
     <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
     <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
   </resultMap>
+  
   <sql id="Base_Column_List" >
     id, title, author, introduce, tag, viewCnt, likeCnt, replyCnt, createDate, updateDate
   </sql>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from album
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from album
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ichunming.mg.model.Album" >
+    insert into album
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="viewcnt != null" >
+        viewCnt,
+      </if>
+      <if test="likecnt != null" >
+        likeCnt,
+      </if>
+      <if test="replycnt != null" >
+        replyCnt,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="updatedate != null" >
+        updateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="viewcnt != null" >
+        #{viewcnt,jdbcType=INTEGER},
+      </if>
+      <if test="likecnt != null" >
+        #{likecnt,jdbcType=INTEGER},
+      </if>
+      <if test="replycnt != null" >
+        #{replycnt,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.ichunming.mg.model.Album" >
+    update album
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="viewcnt != null" >
+        viewCnt = #{viewcnt,jdbcType=INTEGER},
+      </if>
+      <if test="likecnt != null" >
+        likeCnt = #{likecnt,jdbcType=INTEGER},
+      </if>
+      <if test="replycnt != null" >
+        replyCnt = #{replycnt,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

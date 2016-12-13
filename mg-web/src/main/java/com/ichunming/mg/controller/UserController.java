@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ichunming.mg.common.constant.ErrorCode;
 import com.ichunming.mg.common.constant.SystemConstant;
+import com.ichunming.mg.common.constant.SystemSettings;
 import com.ichunming.mg.common.util.CookieUtil;
+import com.ichunming.mg.common.util.DateUtil;
 import com.ichunming.mg.common.util.SessionUtil;
 import com.ichunming.mg.common.util.StringUtil;
 import com.ichunming.mg.core.configuration.ApiConfiguration;
@@ -93,14 +95,19 @@ public class UserController {
 			sessionInfo.fromView(user);
 			SessionUtil.setSessionInfo(sessionInfo, request);
 			
+			// 初始值处理
+			if(StringUtil.isEmpty(user.getNickname())) {
+				user.setNickname(null == user.getMobile() ? user.getEmail() : user.getMobile());
+			}
+			if(StringUtil.isEmpty(user.getPortrait())) {
+				user.setPortrait(SystemSettings.DEFAULT_PORTRAIT);
+			}
+			
 			// 保存cookie
 			try {
-				if(!StringUtil.isEmpty(user.getNickname())) {
-					CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
-				}
-				if(!StringUtil.isEmpty(user.getPortrait())) {
-					CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
-				}
+				CookieUtil.setCookie(response, SystemConstant.COOKIES_UID_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
+				CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
+				CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
 			} catch (Exception e) {
 				logger.debug("set cookie fail.", e);
 			}
@@ -155,6 +162,7 @@ public class UserController {
 		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
 		UserProfile profile = profileVo.toUserProfile();
 		profile.setUid(sessionInfo.getUid());
+		profile.setUpdateDate(DateUtil.current());
 		userService.saveProfile(profile);
 		
 		// 更新cookie

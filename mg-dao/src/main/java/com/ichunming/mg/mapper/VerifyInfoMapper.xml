@@ -13,6 +13,84 @@
     id, receiver, type, content, expire_date, create_date
   </sql>
   
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from verify_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Integer" >
+    delete from verify_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    insert into verify_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="expireDate != null" >
+        expire_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null" >
+        #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="com.ichunming.mg.model.VerifyInfo" >
+    update verify_info
+    <set >
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null" >
+        expire_date = #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
   <select id="getByContent" resultMap="BaseResultMap" parameterType="com.ichunming.mg.model.VerifyInfo" >
     select 
     <include refid="Base_Column_List" />
@@ -44,31 +122,48 @@
     and TIMESTAMPDIFF(SECOND, create_date, now()) &lt;= 30
     limit 0, 1
   </select>
-
-  <insert id="insert" parameterType="com.ichunming.mg.model.VerifyInfo" >
-    insert into verify_info (receiver, type, content, expire_date, create_date)
-    values (#{receiver,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, DATE_ADD(now(), INTERVAL 3 MINUTE), now())
-  </insert>
   
   <insert id="insertToHis" parameterType="com.ichunming.mg.model.VerifyInfo" >
-    insert into verify_info_his (receiver, type, content, expire_date, create_date)
-    values (#{receiver,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{expireDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+    insert into verify_info_his
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="expireDate != null" >
+        expire_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="expireDate != null" >
+        #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
   </insert>
-  
-  <update id="update" parameterType="com.ichunming.mg.model.VerifyInfo" >
-    update verify_info
-    set receiver = #{receiver,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      expire_date = #{expireDate,jdbcType=TIMESTAMP},
-      create_date = #{createDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <delete id="delete" parameterType="java.lang.Integer" >
-    delete from verify_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
 </mapper>

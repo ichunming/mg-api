@@ -25,7 +25,7 @@ public interface GenericDao<T, PK extends Serializable> {
 	 * @param primaryKey
 	 * @return if no record, return null
 	 */
-	public T get(PK primaryKey);
+	public T select(PK primaryKey);
 
 	/**
 	 * delete by primary key

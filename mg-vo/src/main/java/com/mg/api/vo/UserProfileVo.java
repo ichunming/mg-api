@@ -56,6 +56,16 @@ public class UserProfileVo {
 		return profile;
 	}
 	
+	public void fromView(UserView view) {
+		this.nickname = view.getNickname();
+		this.portrait = view.getPortrait();
+		this.realName = view.getRealName();
+		this.birthday = view.getBirthday();
+		this.province = view.getProvince();
+		this.city = view.getCity();
+		this.address = view.getAddress();
+	}
+	
 	public String getNickname() {
 		return nickname;
 	}
@@ -110,15 +120,5 @@ public class UserProfileVo {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-	
-	public void fromView(UserView view) {
-		this.nickname = view.getNickname();
-		this.portrait = view.getPortrait();
-		this.realName = view.getRealName();
-		this.birthday = view.getBirthday();
-		this.province = view.getProvince();
-		this.city = view.getCity();
-		this.address = view.getAddress();
 	}
 }

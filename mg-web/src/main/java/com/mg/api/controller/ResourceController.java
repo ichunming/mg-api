@@ -33,8 +33,8 @@ import com.mg.api.vo.BaseResult;
 @Controller
 @ResponseBody
 @RequestMapping("/v1/file")
-public class FileController {
-	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+public class ResourceController {
+	private static final Logger logger = LoggerFactory.getLogger(ResourceController.class);
 	
 	@Autowired
 	private FileService fileService;
@@ -44,6 +44,8 @@ public class FileController {
 	
 	@RequestMapping(value = "upload/image", method = RequestMethod.POST)
 	public BaseResult imageUpload(MultipartFile file, HttpServletRequest request) {
+		String urlPath = null;
+		
 		// file empty check
 		if(file.isEmpty()) {
 			logger.debug("empty file!");
@@ -87,7 +89,7 @@ public class FileController {
 			
 			// upload to oss
 			logger.debug("upload file to oss...");
-			ossService.post(BucketType.IMAGE.getKey(), name, destDir + File.separator + name);
+			urlPath =ossService.post(BucketType.IMAGE.getKey(), name, destDir + File.separator + name);
 		} catch (Exception e) {
 			logger.error("upload image fail!");
 			return new BaseResult(ErrorCode.ERR_SYS_INTERNAL_ERROR, "upload image fail!");
@@ -108,6 +110,6 @@ public class FileController {
 			}
 		}
 		
-		return new BaseResult(ErrorCode.SUCCESS);
+		return new BaseResult(ErrorCode.SUCCESS, urlPath);
 	}
 }

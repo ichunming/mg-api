@@ -5,9 +5,9 @@ import java.util.List;
 import com.mg.api.common.util.StringUtil;
 
 public enum UploadFileType {
-	IMAGE("image/jpeg;image/gif;image/jpeg;image/png", 1024 * 1024L, "图片"), // 1M
-	AUDIO("audio/mp3;audio/wav;audio/x-ms-wma", 20 * 1024 * 1024L, "音频"), // 20M
-	VIDEO("video/avi;video/mpeg4;", 200 * 1024 * 1024L, "视频"); //200M
+	IMAGE("application/x-bmp;application/x-jpg;image/jpeg;image/gif;image/png", 5 * 1024 * 1024L, "图片"), // 5M
+	AUDIO("audio/mp3;audio/wav;audio/x-ms-wma", 50 * 1024 * 1024L, "音频"), // 50M
+	VIDEO("video/avi;video/mpeg4;", 500 * 1024 * 1024L, "视频"); //500M
 	
 	private List<String> types;
 	private Long maxSize;

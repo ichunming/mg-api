@@ -31,9 +31,9 @@ public class ExcelUtil {
 	// private constructor
 	private ExcelUtil() {}
 
-	public static HSSFWorkbook wb;
+	private static HSSFWorkbook wb;
 	
-	public static Sheet sheet;
+	private static Sheet sheet;
 	
 	// usable index
 	private static final short[] indexs = {0x19, 0x1b, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27};

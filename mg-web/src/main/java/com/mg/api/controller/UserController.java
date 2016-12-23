@@ -4,6 +4,10 @@
  */
 package com.mg.api.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,14 +26,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mg.api.common.constant.ErrorCode;
 import com.mg.api.common.constant.SystemConstant;
 import com.mg.api.common.constant.SystemSettings;
+import com.mg.api.common.constant.ResourceType;
 import com.mg.api.common.util.CookieUtil;
 import com.mg.api.common.util.DateUtil;
 import com.mg.api.common.util.SessionUtil;
 import com.mg.api.common.util.StringUtil;
+import com.mg.api.core.configuration.AliConfiguration;
 import com.mg.api.core.configuration.ApiConfiguration;
 import com.mg.api.entity.SessionInfo;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
+import com.mg.api.service.IFileService;
 import com.mg.api.service.IUserService;
 import com.mg.api.vo.BaseResult;
 import com.mg.api.vo.UserProfileVo;
@@ -45,6 +53,12 @@ public class UserController {
 	@Autowired
 	private ApiConfiguration apiConfig;
 	
+	@Autowired
+	private IFileService fileService;
+	
+	@Autowired
+	private AliConfiguration aliConfig;
+	
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public BaseResult register(String username, String password, String code) {
 		// 用户注册
@@ -53,9 +67,17 @@ public class UserController {
 		// 检测邮箱或手机
 		logger.debug("check username[" + username + "].");
 		if(StringUtil.isEmail(username)) {
+			// 检测邮箱支持
+			if(!SystemSettings.EMAIL_REG_SUPPORT) {
+				return new BaseResult(ErrorCode.ERR_SYS_REG_EMAIL_NOT_SUPPORT, "email register not support");
+			}
 			// 使用邮箱注册
 			return userService.registerByEmail(username, password, code);
 		} else if(StringUtil.isMobile(username)) {
+			// 检测手机支持
+			if(!SystemSettings.MOBIL_REG_SUPPORT) {
+				return new BaseResult(ErrorCode.ERR_SYS_REG_MOBILE_NOT_SUPPORT, "mobile register not support");
+			}
 			// 使用手机注册
 			logger.debug("register by mobile...");
 			return userService.registerByMobile(username, password, code);
@@ -107,7 +129,7 @@ public class UserController {
 			try {
 				CookieUtil.setCookie(response, SystemConstant.COOKIES_UID_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
 				CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
-				CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
+				CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(aliConfig.getOssBktImageUrl() + user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
 			} catch (Exception e) {
 				logger.debug("set cookie fail.", e);
 			}
@@ -179,10 +201,100 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "profile/portrait/upload", method = RequestMethod.POST)
-	public BaseResult uploadPortrait(MultipartFile portrait) {
+	public BaseResult uploadPortrait(MultipartFile portrait, HttpServletRequest request, HttpServletResponse response) {
 		// 用户头像上传
 		logger.debug("upload user portrait...");
-		// TODO
-		return null;
+		BaseResult result = null;
+		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
+		
+		// file check
+		logger.debug("portrait check...");
+		result = fileService.check(portrait, ResourceType.IMAGE);
+		if(result.getCode() != ErrorCode.SUCCESS) {
+			return result;
+		}
+		
+		// temp dir
+		logger.debug("get temp dir...");
+		String destDir = request.getSession().getServletContext().getRealPath("/") + SystemSettings.TEMP_DIR + sessionInfo.getUid() + File.separator;
+		String destFile = destDir + "portrait";
+		if(!new File(destDir).isDirectory()) {
+			// create temp dir
+			logger.debug("create temp dir...");
+			new File(destDir).mkdirs();
+		}
+		
+		// save file
+		OutputStream fileStream = null;
+		try {
+			logger.debug("save portrait to local...");
+			fileStream = new FileOutputStream(new File(destFile));
+			FileCopyUtils.copy(portrait.getInputStream(), fileStream);
+			
+			// upload to oss and update profile
+			logger.debug("upload portrait to oss and update user profile...");
+			result = userService.uploadPortrait(sessionInfo.getUid(), destFile);
+			if(result.getCode() == ErrorCode.SUCCESS) {
+				// 更新cookie
+				try {
+					CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode((String)result.getData(), "utf-8"), apiConfig.getDomainUrl());
+				} catch (Exception e) {
+					logger.debug("set cookie fail.", e);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("upload portrait fail!");
+			return new BaseResult(ErrorCode.ERR_SYS_INTERNAL_ERROR, "upload portrait fail!");
+		} finally {
+			if(null != fileStream) {
+				try {
+					fileStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// cleanup temp file
+			logger.debug("cleanup temp file...");
+			File delFile = new File(destFile);
+			if(delFile.exists()){
+				delFile.delete();
+			}
+			
+			File delFold = new File(destDir);
+			if(delFold.isDirectory()) {
+				delFold.delete();
+			}
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "verify", method = RequestMethod.POST)
+	public BaseResult verifyUserExist(String username) {
+		// 用户信息保存
+		logger.debug("verify user exist...");
+		
+		// 检测邮箱或手机
+		logger.debug("check username[" + username + "].");
+		if(StringUtil.isEmail(username)) {
+			if(userService.isEmailExist(username)) {
+				// 用户已存在
+				logger.debug("user already exist...");
+				return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST, "User Already Exist.");
+			}
+		} else if(StringUtil.isMobile(username)) {
+			if(userService.isMobileExist(username)) {
+				// 用户已存在
+				logger.debug("user already exist...");
+				return new BaseResult(ErrorCode.ERR_USER_VALIDATE_EXIST, "User Already Exist.");
+			}
+		} else {
+			// 请求参数错误
+			logger.debug("request parameter error.");
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "parameter invalid");
+		}
+		
+		return new BaseResult(ErrorCode.SUCCESS);
 	}
 }

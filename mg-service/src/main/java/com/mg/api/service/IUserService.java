@@ -53,10 +53,11 @@ public interface IUserService {
 	
 	/**
 	 * 用户头像上传
-	 * @param portrait
+	 * @param uid
+	 * @param file
 	 * @return
 	 */
-	public BaseResult uploadPortrait(String portrait);
+	public BaseResult uploadPortrait(Long uid, String file);
 	
 	/**
 	 * 邮箱是否存在check

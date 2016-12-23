@@ -5,7 +5,6 @@ import com.mg.api.common.util.StringUtil;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
 
-
 public class UserProfileVo {
 	private String nickname;
 	private static final int NICKNAME_LEN = 50;

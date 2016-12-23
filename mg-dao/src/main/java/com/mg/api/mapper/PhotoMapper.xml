@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ichunming.mg.dao.PhotoDao" >
-  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.Photo" >
+<mapper namespace="com.mg.api.dao.PhotoDao" >
+  <resultMap id="BaseResultMap" type="com.mg.api.model.Photo" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="aid" property="aid" jdbcType="BIGINT" />
     <result column="introduce" property="introduce" jdbcType="VARCHAR" />
-    <result column="src" property="src" jdbcType="VARCHAR" />
+    <result column="rid" property="rid" jdbcType="VARCHAR" />
     <result column="tag" property="tag" jdbcType="VARCHAR" />
-    <result column="viewCnt" property="viewcnt" jdbcType="INTEGER" />
-    <result column="likeCnt" property="likecnt" jdbcType="INTEGER" />
-    <result column="replyCnt" property="replycnt" jdbcType="INTEGER" />
-    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
-    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="view_cnt" property="viewCnt" jdbcType="INTEGER" />
+    <result column="like_cnt" property="likeCnt" jdbcType="INTEGER" />
+    <result column="reply_cnt" property="replyCnt" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, author, introduce, src, tag, viewCnt, likeCnt, replyCnt, createDate, updateDate, 
-    status
+    id, uid, aid, introduce, rid, tag, view_cnt, like_cnt, reply_cnt, create_date, update_date
   </sql>
   
   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -31,122 +30,115 @@
     delete from photo
     where id = #{id,jdbcType=BIGINT}
   </delete>
-
-  <insert id="insert" parameterType="com.ichunming.mg.model.Photo" >
+  
+  <insert id="insert" parameterType="com.mg.api.model.Photo" >
     insert into photo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="author != null" >
-        author,
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="aid != null" >
+        aid,
       </if>
       <if test="introduce != null" >
         introduce,
       </if>
-      <if test="src != null" >
-        src,
+      <if test="rid != null" >
+        rid,
       </if>
       <if test="tag != null" >
         tag,
       </if>
-      <if test="viewcnt != null" >
-        viewCnt,
+      <if test="viewCnt != null" >
+        view_cnt,
       </if>
-      <if test="likecnt != null" >
-        likeCnt,
+      <if test="likeCnt != null" >
+        like_cnt,
       </if>
-      <if test="replycnt != null" >
-        replyCnt,
+      <if test="replyCnt != null" >
+        reply_cnt,
       </if>
-      <if test="createdate != null" >
-        createDate,
+      <if test="createDate != null" >
+        create_date,
       </if>
-      <if test="updatedate != null" >
-        updateDate,
-      </if>
-      <if test="status != null" >
-        status,
+      <if test="updateDate != null" >
+        update_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="author != null" >
-        #{author,jdbcType=VARCHAR},
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="aid != null" >
+        #{aid,jdbcType=BIGINT},
       </if>
       <if test="introduce != null" >
         #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="src != null" >
-        #{src,jdbcType=VARCHAR},
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
       </if>
       <if test="tag != null" >
         #{tag,jdbcType=VARCHAR},
       </if>
-      <if test="viewcnt != null" >
-        #{viewcnt,jdbcType=INTEGER},
+      <if test="viewCnt != null" >
+        #{viewCnt,jdbcType=INTEGER},
       </if>
-      <if test="likecnt != null" >
-        #{likecnt,jdbcType=INTEGER},
+      <if test="likeCnt != null" >
+        #{likeCnt,jdbcType=INTEGER},
       </if>
-      <if test="replycnt != null" >
-        #{replycnt,jdbcType=INTEGER},
+      <if test="replyCnt != null" >
+        #{replyCnt,jdbcType=INTEGER},
       </if>
-      <if test="createdate != null" >
-        #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedate != null" >
-        #{updatedate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.ichunming.mg.model.Photo" >
+  <update id="update" parameterType="com.mg.api.model.Photo" >
     update photo
     <set >
-      <if test="author != null" >
-        author = #{author,jdbcType=VARCHAR},
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="aid != null" >
+        aid = #{aid,jdbcType=BIGINT},
       </if>
       <if test="introduce != null" >
         introduce = #{introduce,jdbcType=VARCHAR},
       </if>
-      <if test="src != null" >
-        src = #{src,jdbcType=VARCHAR},
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=VARCHAR},
       </if>
       <if test="tag != null" >
         tag = #{tag,jdbcType=VARCHAR},
       </if>
-      <if test="viewcnt != null" >
-        viewCnt = #{viewcnt,jdbcType=INTEGER},
+      <if test="viewCnt != null" >
+        view_cnt = #{viewCnt,jdbcType=INTEGER},
       </if>
-      <if test="likecnt != null" >
-        likeCnt = #{likecnt,jdbcType=INTEGER},
+      <if test="likeCnt != null" >
+        like_cnt = #{likeCnt,jdbcType=INTEGER},
       </if>
-      <if test="replycnt != null" >
-        replyCnt = #{replycnt,jdbcType=INTEGER},
+      <if test="replyCnt != null" >
+        reply_cnt = #{replyCnt,jdbcType=INTEGER},
       </if>
-      <if test="createdate != null" >
-        createDate = #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedate != null" >
-        updateDate = #{updatedate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  <select id="getByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from photo
-    where src like CONCAT('%', #{name,jdbcType=VARCHAR})
-  </select>
 </mapper>

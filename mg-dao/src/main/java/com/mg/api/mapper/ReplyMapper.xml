@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ichunming.mg.dao.ReplyDao" >
-  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.Reply" >
+<mapper namespace="com.mg.api.dao.ReplyDao" >
+  <resultMap id="BaseResultMap" type="com.mg.api.model.Reply" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="uid" property="uid" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="rid" property="rid" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
     <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, uid, type, rid, content, createDate
+    id, uid, type, pid, content, create_date
   </sql>
   
   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -26,7 +26,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.ichunming.mg.model.Reply" >
+  <insert id="insert" parameterType="com.mg.api.model.Reply" >
     insert into reply
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -38,14 +38,14 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="rid != null" >
-        rid,
+      <if test="pid != null" >
+        pid,
       </if>
       <if test="content != null" >
         content,
       </if>
-      <if test="createdate != null" >
-        createDate,
+      <if test="createDate != null" >
+        create_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -58,19 +58,19 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="rid != null" >
-        #{rid,jdbcType=BIGINT},
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
       </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null" >
-        #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.ichunming.mg.model.Reply" >
+  <update id="update" parameterType="com.mg.api.model.Reply" >
     update reply
     <set >
       <if test="uid != null" >
@@ -79,14 +79,14 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="rid != null" >
-        rid = #{rid,jdbcType=BIGINT},
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="createdate != null" >
-        createDate = #{createdate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

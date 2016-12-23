@@ -11,8 +11,10 @@ public class UserView {
 	private String email;
 
     private String mobile;
+    
+    private Integer type;
 
-    private Integer status;
+	private Integer status;
     
     private String nickname;
 
@@ -66,6 +68,14 @@ public class UserView {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+    public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public Integer getStatus() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ichunming.mg.dao.VerifyInfoDao" >
-  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.VerifyInfo" >
+<mapper namespace="com.mg.api.dao.VerifyInfoDao" >
+  <resultMap id="BaseResultMap" type="com.mg.api.model.VerifyInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="receiver" property="receiver" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
@@ -25,7 +25,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   
-  <insert id="insert" parameterType="com.ichunming.mg.model.VerifyInfo" >
+  <insert id="insert" parameterType="com.mg.api.model.VerifyInfo" >
     insert into verify_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -69,7 +69,7 @@
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.ichunming.mg.model.VerifyInfo" >
+  <update id="update" parameterType="com.mg.api.model.VerifyInfo" >
     update verify_info
     <set >
       <if test="receiver != null" >
@@ -91,7 +91,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getByContent" resultMap="BaseResultMap" parameterType="com.ichunming.mg.model.VerifyInfo" >
+  <select id="getByContent" resultMap="BaseResultMap" parameterType="com.mg.api.model.VerifyInfo" >
     select 
     <include refid="Base_Column_List" />
     from verify_info
@@ -123,7 +123,7 @@
     limit 0, 1
   </select>
   
-  <insert id="insertToHis" parameterType="com.ichunming.mg.model.VerifyInfo" >
+  <insert id="insertToHis" parameterType="com.mg.api.model.VerifyInfo" >
     insert into verify_info_his
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

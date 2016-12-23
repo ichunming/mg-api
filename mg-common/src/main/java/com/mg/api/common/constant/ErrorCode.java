@@ -13,6 +13,8 @@ public class ErrorCode {
 	public static final Long ERR_SYS_BAD_REQUEST = 1005L;
 	public static final Long ERR_SYS_REQUEST_PARAM_INVALID = 1006L;
 	public static final Long ERR_SYS_LOAD_TPL_FAIL = 1007L;
+	public static final Long ERR_SYS_REG_MOBILE_NOT_SUPPORT = 1008L;
+	public static final Long ERR_SYS_REG_EMAIL_NOT_SUPPORT = 1009L;
 	
 	// 用户级错误码
 	public static final Long ERR_USER_NO_SESSION = 2001L;

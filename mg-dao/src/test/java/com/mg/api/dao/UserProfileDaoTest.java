@@ -1,11 +1,12 @@
 package com.mg.api.dao;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import com.mg.api.dao.UserProfileDao;
 import com.mg.api.model.UserProfile;
 
 public class UserProfileDaoTest extends BaseTest {
@@ -20,11 +21,7 @@ public class UserProfileDaoTest extends BaseTest {
 		UserProfileDao profileDao = sqlSession.getMapper(UserProfileDao.class);
 
 		// prepare data
-		UserProfile profile = new UserProfile();
-		profile.setUid(1L);
-		profile.setNickname("nickname**");
-		profile.setPortrait("portrait**");
-		profile.setRealName("realName**");
+		UserProfile profile = prepareData();
 		
 		// test method
 		profileDao.insert(profile);
@@ -40,11 +37,7 @@ public class UserProfileDaoTest extends BaseTest {
 		UserProfileDao profileDao = sqlSession.getMapper(UserProfileDao.class);
 
 		// prepare data
-		UserProfile profile = new UserProfile();
-		profile.setUid(1L);
-		profile.setNickname("nickname**");
-		profile.setPortrait("portrait**");
-		profile.setRealName("realName**");
+		UserProfile profile = prepareData();
 		profileDao.insert(profile);
 		String newNickname = "new nickname";
 		profile.setNickname(newNickname);
@@ -55,5 +48,16 @@ public class UserProfileDaoTest extends BaseTest {
 		// verify result
 		UserProfile verProfile = selectOne("select * from user_profile where uid = 1", UserProfile.class);
 		assertEquals(newNickname, verProfile.getNickname());
+	}
+	
+	@Ignore
+	private UserProfile prepareData() {
+		UserProfile profile = new UserProfile();
+		profile.setUid(1L);
+		profile.setNickname("nickname**");
+		profile.setPortrait("portrait**");
+		profile.setRealName("realName**");
+		
+		return profile;
 	}
 }

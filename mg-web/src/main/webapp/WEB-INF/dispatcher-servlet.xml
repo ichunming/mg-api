@@ -45,6 +45,7 @@
             <bean class="com.ichunming.mg.core.interceptor.SecurityInterceptor">
                 <property name="excludeUrls">
                     <list>
+                        <value>/v1/user/verify</value>  <!-- verify -->
                         <value>/v1/user/register</value>  <!-- register -->
                         <value>/v1/user/login</value>  <!-- login -->
                         <value>/404</value>  <!-- 404 -->

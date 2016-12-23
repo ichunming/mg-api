@@ -31,18 +31,4 @@ public interface UserDao extends GenericDao<User, Long> {
 	 * @return
 	 */
 	public UserView getViewByUsername(String username);
-	
-	/**
-	 * 根据Email取得用户数
-	 * @param email
-	 * @return
-	 */
-	public int getCntByEmail(String email);
-	
-	/**
-	 * 根据Mobil取得用户数
-	 * @param mobil
-	 * @return
-	 */
-	public int getCntByMobile(String mobil);
 }

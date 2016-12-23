@@ -61,8 +61,8 @@ public class ExcelUtilTest {
 		for(TestUser user : users) {
 			recode.clear();
 			setRecode(recode, line, user);
-			ExcelUtil.setRowStyle(line, dataStyle);
-			ExcelUtil.writeLine(line++, recode);
+			ExcelUtil.writeLine(line, recode);
+			ExcelUtil.setRowStyle(line++, dataStyle);
 		}
 		
 		// set columns width

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ichunming.mg.dao.UserProfileDao" >
-  <resultMap id="BaseResultMap" type="com.ichunming.mg.model.UserProfile">
+<mapper namespace="com.mg.api.dao.UserProfileDao" >
+  <resultMap id="BaseResultMap" type="com.mg.api.model.UserProfile">
     <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="portrait" jdbcType="VARCHAR" property="portrait" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="province" jdbcType="VARCHAR" property="province" />
@@ -15,7 +16,7 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    uid, nickname, portrait, real_name, birthday, province, city, address, create_date, update_date
+    uid, nickname, portrait, domain, real_name, birthday, province, city, address, create_date, update_date
   </sql>
   
   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -30,7 +31,7 @@
     where uid = #{uid,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.ichunming.mg.model.UserProfile" >
+  <insert id="insert" parameterType="com.mg.api.model.UserProfile" >
     insert into user_profile
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="uid != null" >
@@ -41,6 +42,9 @@
       </if>
       <if test="portrait != null" >
         portrait,
+      </if>
+      <if test="domain != null" >
+        domain,
       </if>
       <if test="realName != null" >
         real_name,
@@ -74,6 +78,9 @@
       <if test="portrait != null" >
         #{portrait,jdbcType=VARCHAR},
       </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
       <if test="realName != null" >
         #{realName,jdbcType=VARCHAR},
       </if>
@@ -98,7 +105,7 @@
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.ichunming.mg.model.UserProfile">
+  <update id="update" parameterType="com.mg.api.model.UserProfile">
      update user_profile
     <set >
       <if test="nickname != null">
@@ -106,6 +113,9 @@
       </if>
       <if test="portrait != null">
         portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null">
+        domain = #{domain,jdbcType=VARCHAR},
       </if>
       <if test="realName != null">
         real_name = #{realName,jdbcType=VARCHAR},

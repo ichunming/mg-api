@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mg.api.dao.LikeRecordDao" >
-  <resultMap id="BaseResultMap" type="com.mg.api.model.LikeRecord" >
-    <id column="id" property="id" jdbcType="BIGINT" />
+<mapper namespace="com.mg.api.dao.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.mg.api.model.Resource" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="uid" property="uid" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="use_cnt" property="useCnt" jdbcType="INTEGER" />
+    <result column="size" property="size" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, uid, type, pid, create_date
+    id, uid, type, use_cnt, size, create_date
   </sql>
   
-  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from like_record
-    where id = #{id,jdbcType=BIGINT}
+    from resource
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   
-  <delete id="delete" parameterType="java.lang.Long" >
-    delete from like_record
-    where id = #{id,jdbcType=BIGINT}
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from resource
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insert" parameterType="com.mg.api.model.LikeRecord" >
-    insert into like_record
+  <insert id="insert" parameterType="com.mg.api.model.Resource" >
+    insert into resource
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -37,8 +38,11 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="pid != null" >
-        pid,
+      <if test="useCnt != null" >
+        use_cnt,
+      </if>
+      <if test="size != null" >
+        size,
       </if>
       <if test="createDate != null" >
         create_date,
@@ -46,7 +50,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="uid != null" >
         #{uid,jdbcType=BIGINT},
@@ -54,8 +58,11 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="pid != null" >
-        #{pid,jdbcType=BIGINT},
+      <if test="useCnt != null" >
+        #{useCnt,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -63,8 +70,8 @@
     </trim>
   </insert>
   
-  <update id="update" parameterType="com.mg.api.model.LikeRecord" >
-    update like_record
+  <update id="update" parameterType="com.mg.api.model.Resource" >
+    update resource
     <set >
       <if test="uid != null" >
         uid = #{uid,jdbcType=BIGINT},
@@ -72,13 +79,16 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="pid != null" >
-        pid = #{pid,jdbcType=BIGINT},
+      <if test="useCnt != null" >
+        use_cnt = #{useCnt,jdbcType=INTEGER},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

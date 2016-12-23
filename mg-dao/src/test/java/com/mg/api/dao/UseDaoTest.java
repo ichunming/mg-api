@@ -101,63 +101,6 @@ public class UseDaoTest extends BaseTest {
 		assertNotNull(user.getId());
 	}
 	
-	@Test
-	public void getCntByEmail_0_Test() throws Exception {
-		// create component
-		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		
-		// prepare data
-		
-		// test method
-		int result = userDao.getCntByEmail("test@test.com");
-		
-		// verify result
-		assertEquals(0, result);
-	}
-	
-	@Test
-	public void getCntByEmail_1_Test() throws Exception {
-		// create component
-		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		
-		// prepare data
-		addUser();
-		
-		// test method
-		int result = userDao.getCntByEmail("test@test.com");
-		
-		// verify result
-		assertEquals(1, result);
-	}
-	
-	@Test
-	public void getCntByMobile_0_Test() throws Exception {
-		// create component
-		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		
-		// prepare data
-		
-		// test method
-		int result = userDao.getCntByMobile("13761104110");
-		
-		// verify result
-		assertEquals(0, result);
-	}
-	
-	@Test
-	public void getCntByMobile_1_Test() throws Exception {
-		// create component
-		UserDao userDao = sqlSession.getMapper(UserDao.class);
-		
-		// prepare data
-		addUser();
-		// test method
-		int result = userDao.getCntByMobile("13761104110");
-		
-		// verify result
-		assertEquals(1, result);
-	}
-	
 	@Ignore
 	private void addUser() {
 		insert("insert into user values(1, 'pwd', 'salt', 'test@test.com', '13761104110', 1, now(), now())");

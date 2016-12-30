@@ -4,10 +4,6 @@
  */
 package com.mg.api.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,23 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mg.api.common.constant.BucketType;
 import com.mg.api.common.constant.ErrorCode;
+import com.mg.api.common.constant.ResourceType;
 import com.mg.api.common.constant.SystemConstant;
 import com.mg.api.common.constant.SystemSettings;
-import com.mg.api.common.constant.ResourceType;
 import com.mg.api.common.util.CookieUtil;
 import com.mg.api.common.util.DateUtil;
 import com.mg.api.common.util.SessionUtil;
 import com.mg.api.common.util.StringUtil;
+import com.mg.api.common.util.helper.SessionInfo;
 import com.mg.api.core.configuration.AliConfiguration;
 import com.mg.api.core.configuration.ApiConfiguration;
-import com.mg.api.entity.SessionInfo;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
 import com.mg.api.service.IFileService;
@@ -43,7 +39,7 @@ import com.mg.api.vo.UserProfileVo;
 
 @Controller
 @ResponseBody
-@RequestMapping("/v1/user")
+@RequestMapping("/user")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -59,6 +55,13 @@ public class UserController {
 	@Autowired
 	private AliConfiguration aliConfig;
 	
+	/**
+	 * 用户注册
+	 * @param username
+	 * @param password
+	 * @param code
+	 * @return
+	 */
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public BaseResult register(String username, String password, String code) {
 		// 用户注册
@@ -88,6 +91,14 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * 用户登入
+	 * @param username
+	 * @param password
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public BaseResult login(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		BaseResult result = null;
@@ -113,8 +124,7 @@ public class UserController {
 			// 保存SessionInfo
 			logger.debug("save session info...");
 			UserView user = (UserView)result.getData();
-			SessionInfo sessionInfo = new SessionInfo();
-			sessionInfo.fromView(user);
+			SessionInfo sessionInfo = new SessionInfo(user.getId(), user.getEmail(), user.getMobile());
 			SessionUtil.setSessionInfo(sessionInfo, request);
 			
 			// 初始值处理
@@ -141,6 +151,13 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 重置密码
+	 * @param oldPwd
+	 * @param newPwd
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "password/reset", method = RequestMethod.POST)
 	public BaseResult resetPwd(String oldPwd, String newPwd, HttpServletRequest request) {
 		// 密码重置
@@ -157,6 +174,11 @@ public class UserController {
 		return userService.resetPwd(sessionInfo.getUid(), oldPwd, newPwd);
 	}
 	
+	/**
+	 * 用户信息取得
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "profile/get", method = RequestMethod.POST)
 	public BaseResult getProfile(HttpServletRequest request) {
 		// 用户信息取得
@@ -167,6 +189,13 @@ public class UserController {
 		return userService.getProfile(sessionInfo.getUid());
 	}
 	
+	/**
+	 * 用户信息保存
+	 * @param profileVo
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "profile/save", method = RequestMethod.POST)
 	public BaseResult saveProfile(UserProfileVo profileVo, HttpServletRequest request, HttpServletResponse response) {
 		// 用户信息保存
@@ -200,6 +229,13 @@ public class UserController {
 		return new BaseResult(ErrorCode.SUCCESS);
 	}
 
+	/**
+	 * 用户头像上传
+	 * @param portrait
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "profile/portrait/upload", method = RequestMethod.POST)
 	public BaseResult uploadPortrait(MultipartFile portrait, HttpServletRequest request, HttpServletResponse response) {
 		// 用户头像上传
@@ -207,72 +243,49 @@ public class UserController {
 		BaseResult result = null;
 		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
 		
-		// file check
+		// 文件 check
 		logger.debug("portrait check...");
 		result = fileService.check(portrait, ResourceType.IMAGE);
 		if(result.getCode() != ErrorCode.SUCCESS) {
 			return result;
 		}
 		
-		// temp dir
-		logger.debug("get temp dir...");
-		String destDir = request.getSession().getServletContext().getRealPath("/") + SystemSettings.TEMP_DIR + sessionInfo.getUid() + File.separator;
-		String destFile = destDir + "portrait";
-		if(!new File(destDir).isDirectory()) {
-			// create temp dir
-			logger.debug("create temp dir...");
-			new File(destDir).mkdirs();
+		// 保存文件
+		logger.debug("save file...");
+		String tempDir = request.getSession().getServletContext().getRealPath("/") + SystemSettings.TEMP_DIR;
+		String key = fileService.genPortraitId(sessionInfo.getUid());
+		String urlPath = fileService.saveToOss(tempDir, sessionInfo.getUid(), portrait, BucketType.IMAGE, key);
+		
+		if(StringUtil.isEmpty(urlPath)) {
+			return new BaseResult(ErrorCode.ERR_SVR_FILE_ERROR, "file upload fail");
 		}
 		
-		// save file
-		OutputStream fileStream = null;
+		// 更新用户信息
+		logger.debug("update user profile...");
+		UserProfile profile = new UserProfile();
+		profile.setUid(sessionInfo.getUid());
+		profile.setPortrait(key);
+		profile.setUpdateDate(DateUtil.current());
+		userService.saveProfile(profile);
+		
+		// 更新 cookie
 		try {
-			logger.debug("save portrait to local...");
-			fileStream = new FileOutputStream(new File(destFile));
-			FileCopyUtils.copy(portrait.getInputStream(), fileStream);
-			
-			// upload to oss and update profile
-			logger.debug("upload portrait to oss and update user profile...");
-			result = userService.uploadPortrait(sessionInfo.getUid(), destFile);
-			if(result.getCode() == ErrorCode.SUCCESS) {
-				// 更新cookie
-				try {
-					CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode((String)result.getData(), "utf-8"), apiConfig.getDomainUrl());
-				} catch (Exception e) {
-					logger.debug("set cookie fail.", e);
-				}
-			}
+			CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(urlPath, "utf-8"), apiConfig.getDomainUrl());
 		} catch (Exception e) {
-			logger.error("upload portrait fail!");
-			return new BaseResult(ErrorCode.ERR_SYS_INTERNAL_ERROR, "upload portrait fail!");
-		} finally {
-			if(null != fileStream) {
-				try {
-					fileStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			// cleanup temp file
-			logger.debug("cleanup temp file...");
-			File delFile = new File(destFile);
-			if(delFile.exists()){
-				delFile.delete();
-			}
-			
-			File delFold = new File(destDir);
-			if(delFold.isDirectory()) {
-				delFold.delete();
-			}
+			logger.debug("set cookie fail.", e);
 		}
 		
-		return result;
+		return new BaseResult(ErrorCode.SUCCESS, urlPath);
 	}
 	
+	/**
+	 * 用户存在check
+	 * @param username
+	 * @return
+	 */
 	@RequestMapping(value = "verify", method = RequestMethod.POST)
 	public BaseResult verifyUserExist(String username) {
-		// 用户信息保存
+		// 用户存在check
 		logger.debug("verify user exist...");
 		
 		// 检测邮箱或手机

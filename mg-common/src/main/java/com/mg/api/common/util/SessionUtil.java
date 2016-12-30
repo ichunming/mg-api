@@ -3,7 +3,7 @@ package com.mg.api.common.util;
 import javax.servlet.http.HttpServletRequest;
 
 import com.mg.api.common.constant.SystemConstant;
-import com.mg.api.entity.SessionInfo;
+import com.mg.api.common.util.helper.SessionInfo;
 
 public class SessionUtil {
 	

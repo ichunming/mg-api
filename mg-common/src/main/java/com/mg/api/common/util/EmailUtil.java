@@ -15,7 +15,7 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.mg.api.entity.EmailOption;
+import com.mg.api.common.util.helper.EmailOption;
 
 public class EmailUtil {
 	

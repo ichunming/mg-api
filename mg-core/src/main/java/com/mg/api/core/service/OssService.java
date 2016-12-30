@@ -5,6 +5,7 @@
 package com.mg.api.core.service;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +153,26 @@ public class OssService {
 		return ossClientMap.get(bucketKey.toUpperCase());
 	}
 	
+	/**
+	 * convert urls to keys
+	 * @param urls
+	 * @return
+	 */
+	public List<String> convertUrls2Keys(List<String> urls) {
+		// check urls
+		if(null == urls || urls.size() == 0) {
+			return null;
+		}
+
+		List<String> keys = new ArrayList<String>();
+		String key = null;
+		for(String url : urls) {
+			key = url.substring(url.lastIndexOf("/") + 1, url.length());
+			keys.add(key);
+		}
+		return keys;
+	}
+
 	public void setConfig(AliConfiguration config) {
 		this.config = config;
 	}

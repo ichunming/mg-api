@@ -13,12 +13,12 @@
 	</listener>
 	
 	<listener>
-        <listener-class>com.ichunming.mg.core.listener.StartupListener</listener-class>
+        <listener-class>com.mg.api.core.listener.StartupListener</listener-class>
     </listener>
     
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>com.ichunming.mg.core.filter.CharsetEncodingFilter</filter-class>
+		<filter-class>com.mg.api.core.filter.CharsetEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>

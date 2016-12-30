@@ -20,7 +20,7 @@
     <context:annotation-config />
 
     <!-- tcherServlet上下文，只搜索@Controll 的类 -->
-    <context:component-scan base-package="com.ichunming.mg.controller">
+    <context:component-scan base-package="com.mg.api.controller">
         <context:include-filter type="annotation"
             expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
@@ -42,12 +42,12 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**" />
-            <bean class="com.ichunming.mg.core.interceptor.SecurityInterceptor">
+            <bean class="com.mg.api.core.interceptor.SecurityInterceptor">
                 <property name="excludeUrls">
                     <list>
-                        <value>/v1/user/verify</value>  <!-- verify -->
-                        <value>/v1/user/register</value>  <!-- register -->
-                        <value>/v1/user/login</value>  <!-- login -->
+                        <value>/user/verify</value>  <!-- verify -->
+                        <value>/user/register</value>  <!-- register -->
+                        <value>/user/login</value>  <!-- login -->
                         <value>/404</value>  <!-- 404 -->
                         <value>/500</value>  <!-- 505 -->
                         <value>/400</value>  <!-- 400 -->

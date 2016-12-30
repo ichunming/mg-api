@@ -7,7 +7,6 @@
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
@@ -23,11 +22,6 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="portrait" property="portrait" jdbcType="VARCHAR" />
-    <result column="real_name" property="realName" jdbcType="VARCHAR" />
-    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -35,7 +29,7 @@
   </sql>
   
   <sql id="View_Column_List">
-    id, password, salt, email, mobile, type, status, nickname, portrait, real_name, birthday, province, city, address
+    id, password, salt, email, mobile, type, status, nickname, portrait
   </sql>
   
   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >

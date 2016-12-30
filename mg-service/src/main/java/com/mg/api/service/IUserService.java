@@ -52,14 +52,6 @@ public interface IUserService {
 	public void saveProfile(UserProfile profile);
 	
 	/**
-	 * 用户头像上传
-	 * @param uid
-	 * @param file
-	 * @return
-	 */
-	public BaseResult uploadPortrait(Long uid, String file);
-	
-	/**
 	 * 邮箱是否存在check
 	 * @param email
 	 * @return

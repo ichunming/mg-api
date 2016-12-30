@@ -1,3 +1,7 @@
+/*
+ * Verify Service Impl
+ * ming 2016/12/27
+ */
 package com.mg.api.service.impl;
 
 import java.util.Arrays;

@@ -1,13 +1,16 @@
 package com.mg.api.core.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mg.api.common.constant.BucketType;
 import com.mg.api.core.configuration.AliConfiguration;
-import com.mg.api.core.service.OssService;
 
 public class OssServiceTest {
 	private OssService target;
@@ -36,6 +39,20 @@ public class OssServiceTest {
 		target.delete(BucketType.IMAGE.getKey(), "test");
 		
 		// verify result
+	}
+
+	@Test
+	public void convertUrls2KeysTest() {
+		// prepare data
+		prepareData();
+		List<String> urls = Arrays.asList("http://image.oss-cn-shanghai.aliyuncs.com/0001", "http://image.oss-cn-shanghai.aliyuncs.com/0002");
+		
+		// test method
+		List<String> keys = target.convertUrls2Keys(urls);
+		
+		// verify result
+		assertTrue(keys.contains("0001"));
+		assertTrue(keys.contains("0002"));
 	}
 	
 	@Ignore

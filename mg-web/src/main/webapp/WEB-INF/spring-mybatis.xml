@@ -39,11 +39,22 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath*:com/ichunming/mg/mapper/*.xml" />
+        <property name="mapperLocations" value="classpath*:com/mg/api/mapper/*.xml" />
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.ichunming.mg.dao" />
+        <property name="basePackage" value="com.mg.api.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
@@ -66,7 +77,7 @@
 
 	<aop:config>
 		<aop:pointcut id="pc"
-			expression="execution(* com.ichunming.mg.service.*.*(..))" />
+			expression="execution(* com.mg.api.service.*.*(..))" />
 		<!--把事务控制在Service层 -->
 		<aop:advisor pointcut-ref="pc" advice-ref="tx" />
 	</aop:config>
@@ -78,7 +89,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.ichunming.mg.service.impl.*</value>
+				<value>com.mg.api.service.impl.*</value>
 			</list>
 		</property>
 	</bean>

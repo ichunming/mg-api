@@ -1,4 +1,4 @@
-package com.mg.api.entity;
+package com.mg.api.common.util.helper;
 
 public class SessionInfo {
 	
@@ -15,12 +15,6 @@ public class SessionInfo {
     	this.email = email;
     	this.mobile = mobile;
     }
-    
-	public void fromView(UserView view) {
-		this.uid = view.getId();
-		this.email = view.getEmail();
-	    this.mobile = view.getMobile();
-	}
     
 	public Long getUid() {
 		return uid;

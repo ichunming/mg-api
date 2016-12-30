@@ -11,8 +11,7 @@ import org.apache.commons.mail.EmailException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.mg.api.common.util.EmailUtil;
-import com.mg.api.entity.EmailOption;
+import com.mg.api.common.util.helper.EmailOption;
 
 /**
  * Unit test for simple App.

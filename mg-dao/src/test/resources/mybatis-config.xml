@@ -12,17 +12,18 @@
       <dataSource type="UNPOOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/mgdb"/>
-        <property name="username" value="zhangchunming"/>
-        <property name="password" value="19900201"/>
+        <property name="username" value="yimei"/>
+        <property name="password" value="yymm1234"/>
       </dataSource>
     </environment>
   </environments>
 
   <mappers>
     <!-- 配置Mapper -->
-    <!-- <mapper class="com.ichunming.dao.UserInfoDao"/> -->
-    <mapper resource="com/ichunming/mg/mapper/UserMapper.xml"/>
-    <mapper resource="com/ichunming/mg/mapper/UserProfileMapper.xml"/>
+    <!-- <mapper class="com.mg.api.dao.ResourceDao"/> -->
+    <mapper resource="com/mg/api/mapper/UserMapper.xml"/>
+    <mapper resource="com/mg/api/mapper/UserProfileMapper.xml"/>
+    <mapper resource="com/mg/api/mapper/ResourceMapper.xml"/>
   </mappers>
 
 </configuration>

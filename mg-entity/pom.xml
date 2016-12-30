@@ -7,8 +7,16 @@
 	<packaging>jar</packaging>
 	<name>mg-entity</name>
 	<parent>
-		<groupId>com.ichunming</groupId>
+		<groupId>com.mg</groupId>
 		<artifactId>mg-api</artifactId>
 		<version>0.1</version>
 	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.mg</groupId>
+			<artifactId>mg-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>

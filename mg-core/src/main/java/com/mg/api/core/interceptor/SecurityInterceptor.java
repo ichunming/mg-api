@@ -11,8 +11,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.mg.api.common.constant.SystemSettings;
 import com.mg.api.common.util.SessionUtil;
+import com.mg.api.common.util.helper.SessionInfo;
 import com.mg.api.core.exception.InvalidSessionException;
-import com.mg.api.entity.SessionInfo;
 
 public class SecurityInterceptor extends HandlerInterceptorAdapter{
 	private static Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);

@@ -1,6 +1,7 @@
 package com.mg.api.common.util;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -86,4 +87,39 @@ public class DateUtil {
 			return null;
 		}
 	}
+	
+    /**
+     * 以指定日期样式转换字符串对象为日期型对象
+     * @param dateString
+     * @param pattern
+     * @return
+     * @throws ParseException 
+     */
+    public static Date getDateByPattern(String dateString, String pattern) {
+          Date date = null;
+          
+          try {
+                SimpleDateFormat sdf=new SimpleDateFormat(pattern);
+                date=sdf.parse(dateString);
+          } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+          }
+          return date;
+    }
+          
+    /**
+     * 以指定日期样式转换日期为字符串对象
+     * @param date
+     * @param pattern
+     * @return
+     */
+    public static String getStringByPattern(Date date, String pattern){
+          String dateString = null;
+          
+          SimpleDateFormat sdf=new SimpleDateFormat(pattern);
+          dateString = sdf.format(date);
+          
+          return dateString;
+    }
 }

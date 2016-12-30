@@ -1,4 +1,4 @@
-package com.mg.api.entity;
+package com.mg.api.common.util.helper;
 
 public class EmailOption {
 	private String host;

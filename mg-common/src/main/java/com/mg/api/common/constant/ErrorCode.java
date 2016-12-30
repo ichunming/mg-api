@@ -28,8 +28,16 @@ public class ErrorCode {
 	public static final Long ERR_USER_VERIFY_CODE_INVALID = 2009L;
 	public static final Long ERR_USER_VERIFY_CODE_OVERDUE = 2010L;
 	public static final Long ERR_USER_SEND_SMS_FREQUENT = 2011L;
-	public static final Long ERR_USER_UPLOAD_TYPE_LIMIT = 2012L;
-	public static final Long ERR_USER_UPLOAD_SIZE_LIMIT = 2013L;
+	
+	// 资源管理错误码
+	public static final Long ERR_RSC_ID_INVALID = 3001L;
+	public static final Long ERR_RSC_DEL_DENY = 3002L;
+	public static final Long ERR_RSC_UPLOAD_TYPE_LIMIT = 3003L;
+	public static final Long ERR_RSC_UPLOAD_SIZE_LIMIT = 3004L;
+	public static final Long ERR_RSC_UPLOAD_NUM_LIMIT = 3005L;
+	public static final Long ERR_RSC_NO_AUTH = 3006L;
+	public static final Long ERR_RSC_TYPE_NOT_MATCH = 3007L;
+	public static final Long ERR_RSC_FILTER_NOT_SUPPORT = 3008L;
 	
 	// 服务级错误码
 	public static final Long ERR_SVR_SMS_ERROR = 4001L;

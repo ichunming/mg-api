@@ -14,13 +14,23 @@ public class UserProfileVo {
 	private String realName;
 	private static final int REALNAME_LEN = 50;
 	
+	private int gender;
+	
+	private String career;
+	private static final int CAREER_LEN = 50;
+	
+	private String intro;
+	private static final int INTRO_LEN = 50;
+	
 	private String birthday;
 	
+	private int provinceId;
+	
 	private String province;
-	private static final int PROVINCE_LEN = 20;
+	
+	private int cityId;
 	
 	private String city;
-	private static final int CITY_LEN = 20;
 	
 	private String address;
 	private static final int ADDRESS_LEN = 200;
@@ -30,32 +40,60 @@ public class UserProfileVo {
 		if(!StringUtil.isEmpty(nickname) && nickname.length() > NICKNAME_LEN) return "nickname too long";
 		// realName
 		if(!StringUtil.isEmpty(realName) && realName.length() > REALNAME_LEN) return "real name too long";
+		// province TODO
+		
+		// city TODO
+		
+		// career
+		if(!StringUtil.isEmpty(career) && career.length() > CAREER_LEN) return "career too long";
+		// intro
+		if(!StringUtil.isEmpty(intro) && intro.length() > INTRO_LEN) return "intro too long";
 		// birthday
-		if(!StringUtil.isEmpty(birthday) && DateUtil.parseDate(birthday) == null) return "birthday format is wrong";
-		// province
-		if(!StringUtil.isEmpty(province) && province.length() > PROVINCE_LEN) return "province too long"; 
-		// city
-		if(!StringUtil.isEmpty(city) && city.length() > CITY_LEN) return "city too long";
+		if(!StringUtil.isEmpty(birthday) && DateUtil.parseDate(birthday) == null) return "birthday format wrong";
 		// address
 		if(!StringUtil.isEmpty(address) && address.length() > ADDRESS_LEN) return "address too long";
 		
 		return null;
 	}
 	
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public String getCareer() {
+		return career;
+	}
+
+	public void setCareer(String career) {
+		this.career = career;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
 	public UserProfile toUserProfile() {
 		UserProfile profile = new UserProfile();
 		profile.setNickname(nickname);
 		profile.setPortrait(portrait);
 		profile.setRealName(realName);
 		profile.setBirthday(birthday);
-		profile.setProvince(province);
-		profile.setCity(city);
+		profile.setProvince(provinceId);
+		profile.setCity(cityId);
 		profile.setAddress(address);
 		
 		return profile;
 	}
 	
-	public void fromView(UserView view) {
+	public void fromViews(UserView view) {
 		this.nickname = view.getNickname();
 		this.portrait = view.getPortrait();
 		this.realName = view.getRealName();
@@ -95,6 +133,22 @@ public class UserProfileVo {
 
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
+	}
+
+	public int getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(int provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
 	}
 
 	public String getProvince() {

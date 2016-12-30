@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mg.api.dao.ResourceMapper" >
+<mapper namespace="com.mg.api.dao.ResourceDao" >
   <resultMap id="BaseResultMap" type="com.mg.api.model.Resource" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="uid" property="uid" jdbcType="BIGINT" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="use_cnt" property="useCnt" jdbcType="INTEGER" />
-    <result column="size" property="size" jdbcType="INTEGER" />
+    <result column="size" property="size" jdbcType="BIGINT" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
@@ -62,7 +62,7 @@
         #{useCnt,jdbcType=INTEGER},
       </if>
       <if test="size != null" >
-        #{size,jdbcType=INTEGER},
+        #{size,jdbcType=BIGINT},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -83,7 +83,7 @@
         use_cnt = #{useCnt,jdbcType=INTEGER},
       </if>
       <if test="size != null" >
-        size = #{size,jdbcType=INTEGER},
+        size = #{size,jdbcType=BIGINT},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -91,4 +91,59 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <insert id="batchInsert" parameterType="java.util.List" >
+    insert into resource values
+    <foreach collection="list" item="item" separator="," >
+      (#{item.id,jdbcType=VARCHAR},
+      #{item.uid,jdbcType=BIGINT},
+      #{item.type,jdbcType=INTEGER},
+      #{item.useCnt,jdbcType=INTEGER},
+      #{item.size,jdbcType=BIGINT},
+      #{item.createDate,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  
+  <select id="getByIds" resultMap="BaseResultMap" parameterType="java.util.List" >
+    select 
+    <include refid="Base_Column_List" />
+    from resource
+    <where>
+	  <foreach collection="list" item="item" index="index" open="" close="" separator="or">
+	  id=#{item}
+	  </foreach>
+	</where>
+  </select>
+  
+  <delete id="deleteByIds" parameterType="java.util.List" >
+    delete from resource
+    <where>
+      <foreach collection="list" item="item" index="index" open="" close="" separator="or">
+      id=#{item}
+      </foreach>
+    </where>
+  </delete>
+  
+  <select id="getByTimeFilter" resultType="com.mg.api.vo.ResourceVo" >
+    select id, use_cnt as useCnt, create_date as createDate
+    from resource
+    where uid = #{uid,jdbcType=BIGINT}
+    and type = #{type,jdbcType=INTEGER}
+    order by create_date desc
+  </select>
+  
+  <select id="getByCntFilter" resultType="com.mg.api.vo.ResourceVo" >
+    select id, use_cnt as useCnt, create_date as createDate
+    from resource
+    where uid = #{uid,jdbcType=BIGINT}
+    and type = #{type,jdbcType=INTEGER}
+    order by use_cnt desc
+  </select>
+  
+  <select id="statistics" resultType="com.mg.api.vo.ResourceStatsVo" parameterType="java.lang.Long" >
+    select COUNT(1) as num, type, SUM(size) as size
+    from resource
+    where uid = #{uid,jdbcType=BIGINT}
+    group by type
+  </select>
 </mapper>

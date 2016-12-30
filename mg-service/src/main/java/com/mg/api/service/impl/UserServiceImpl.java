@@ -1,7 +1,6 @@
 /**
  * User Service
- * create by ming 2016/11/15
- * v0.1
+ * ming 2016/11/15
  */
 package com.mg.api.service.impl;
 
@@ -12,20 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mg.api.common.constant.BucketType;
 import com.mg.api.common.constant.ErrorCode;
 import com.mg.api.common.constant.UserStatus;
 import com.mg.api.common.constant.UserType;
 import com.mg.api.common.util.DateUtil;
 import com.mg.api.common.util.EncryptionUtil;
 import com.mg.api.common.util.RandomUtil;
-import com.mg.api.core.service.OssService;
 import com.mg.api.dao.UserDao;
 import com.mg.api.dao.UserProfileDao;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.User;
 import com.mg.api.model.UserProfile;
-import com.mg.api.service.IFileService;
 import com.mg.api.service.IUserService;
 import com.mg.api.service.IVerifyService;
 import com.mg.api.vo.BaseResult;
@@ -44,12 +40,6 @@ public class UserServiceImpl implements IUserService {
 	
 	@Autowired
 	private IVerifyService verifyService;
-	
-	@Autowired
-	private IFileService fileService;
-	
-	@Autowired
-	private OssService ossService;
 	
 	@Override
 	public BaseResult registerByEmail(String email, String password, String code) {
@@ -141,11 +131,7 @@ public class UserServiceImpl implements IUserService {
 			// 被锁定
 			logger.debug("locked...");
 			return new BaseResult(ErrorCode.ERR_USER_LOCK, "User Been Locked");
-		}/* else if(user.getStatus() == UserStatus.Deleted.getCode()) {
-			// 被删除
-			logger.debug("deleted...");
-			return new BaseResult(ErrorCode.ERR_USER_DELETE, "User Been Deleted");
-		}*/
+		}
 		
 		// 密码check
 		logger.debug("check password...");
@@ -154,10 +140,7 @@ public class UserServiceImpl implements IUserService {
 			logger.debug("password not match...");
 			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID, "Password Not Match");
 		}
-		
-		// Session信息
-		//logger.debug("create session info...");
-		//SessionInfo sessionInfo = user.toSessionInfo();
+
 		return new BaseResult(ErrorCode.SUCCESS, user);
 	}
 
@@ -175,26 +158,6 @@ public class UserServiceImpl implements IUserService {
 		// 保存用户信息
 		logger.debug("save user profile...");
 		profileDao.update(profile);
-	}
-
-	@Override
-	public BaseResult uploadPortrait(Long uid, String file) {
-		// 获取头像ID
-		logger.debug("generate portrait id...");
-		String key = fileService.genPortraitId(uid);
-		
-		// 上传头像到OSS
-		logger.debug("upload portrait to oss...");
-		String urlPath = ossService.post(BucketType.IMAGE.getKey(), key, file);
-		
-		// 更新用户信息
-		logger.debug("update user profile...");
-		UserProfile profile = new UserProfile();
-		profile.setUid(uid);
-		profile.setPortrait(key);
-		profile.setUpdateDate(DateUtil.current());
-		profileDao.update(profile);
-		return new BaseResult(ErrorCode.SUCCESS, urlPath);
 	}
 
 	@Override

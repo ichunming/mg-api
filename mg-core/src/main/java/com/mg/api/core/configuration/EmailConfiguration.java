@@ -3,7 +3,7 @@ package com.mg.api.core.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.mg.api.entity.EmailOption;
+import com.mg.api.common.util.helper.EmailOption;
 
 @Component
 public class EmailConfiguration extends EmailOption {

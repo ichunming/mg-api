@@ -19,7 +19,7 @@ import com.mg.api.vo.BaseResult;
 
 @Controller
 @ResponseBody
-@RequestMapping("/v1/verify")
+@RequestMapping("/verify")
 public class VerifyController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(VerifyController.class);
@@ -27,6 +27,11 @@ public class VerifyController {
 	@Autowired
 	private IVerifyService verifyService;
 	
+	/**
+	 * 获取验证码
+	 * @param username
+	 * @return
+	 */
 	@RequestMapping(value = "code/get", method = RequestMethod.POST)
 	public BaseResult getCode(String username) {
 		// 获取验证码

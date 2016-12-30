@@ -5,9 +5,9 @@ import java.util.List;
 import com.mg.api.common.util.StringUtil;
 
 public enum ResourceType {
-	IMAGE(0, "application/x-bmp;application/x-jpg;image/jpeg;image/gif;image/png", 5 * 1024 * 1024L, "图片"), // 5M
-	AUDIO(1, "audio/mp3;audio/wav;audio/x-ms-wma", 50 * 1024 * 1024L, "音频"), // 50M
-	VIDEO(2, "video/avi;video/mpeg4;", 500 * 1024 * 1024L, "视频"); //500M
+	IMAGE(SystemConstant.RESOURCE_TYPE_IMAGE, "application/x-bmp;application/x-jpg;image/jpeg;image/gif;image/png", 5 * 1024 * 1024L, "图片"), // 5M
+	AUDIO(SystemConstant.RESOURCE_TYPE_AUDIO, "audio/mp3;audio/wav;audio/x-ms-wma", 50 * 1024 * 1024L, "音频"), // 50M
+	VIDEO(SystemConstant.RESOURCE_TYPE_VIDEO, "video/avi;video/mpeg4;", 500 * 1024 * 1024L, "视频"); //500M
 	
 	private int code;
 	private List<String> types;

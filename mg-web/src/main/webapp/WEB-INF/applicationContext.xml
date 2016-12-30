@@ -18,8 +18,8 @@
 	<context:annotation-config />
 	<context:property-placeholder location="classpath:ds.properties" />
 	<!-- 配置要扫描的包 -->
-	<context:component-scan base-package="com.ichunming.mg.core" />
-	<context:component-scan base-package="com.ichunming.mg.service" />
+	<context:component-scan base-package="com.mg.api.core" />
+	<context:component-scan base-package="com.mg.api.service" />
 
 	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="fileEncoding">

@@ -22,6 +22,7 @@ import com.mg.api.dao.UserProfileDao;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.User;
 import com.mg.api.model.UserProfile;
+import com.mg.api.service.ILocationService;
 import com.mg.api.service.IUserService;
 import com.mg.api.service.IVerifyService;
 import com.mg.api.vo.BaseResult;
@@ -40,6 +41,9 @@ public class UserServiceImpl implements IUserService {
 	
 	@Autowired
 	private IVerifyService verifyService;
+	
+	@Autowired
+	private ILocationService locationService;
 	
 	@Override
 	public BaseResult registerByEmail(String email, String password, String code) {
@@ -67,7 +71,7 @@ public class UserServiceImpl implements IUserService {
 		logger.debug("register by email[" + email + "]");
 		User user = registerUser(password);
         user.setEmail(email);
-        userDao.insert(user);
+        userDao.insertUseGenKey(user);
         // 创建用户信息
         logger.debug("create profile...");
         createProfile(user.getId());
@@ -101,7 +105,7 @@ public class UserServiceImpl implements IUserService {
 		logger.debug("register by mobile[" + mobile + "]");
 		User user = registerUser(password);
         user.setMobile(mobile);
-        userDao.insert(user);
+        userDao.insertUseGenKey(user);
         // 创建用户信息
         logger.debug("create profile...");
         createProfile(user.getId());
@@ -149,7 +153,17 @@ public class UserServiceImpl implements IUserService {
 		// 取得用户Profile
 		logger.debug("get user profile...");
 		UserProfileVo profileVo = new UserProfileVo();
-		profileVo.fromView(userDao.getView(uid));
+		UserProfile profile = profileDao.select(uid);
+		
+		if(null == profile) {
+			return new BaseResult(ErrorCode.ERR_USER_NOT_EXIST, "user not exist");
+		}
+		
+		profileVo.fromEntity(profile);
+		// 设置位置信息
+		logger.debug("set location info...");
+		profileVo.setProvince(locationService.getName(profileVo.getProvinceId()));
+		profileVo.setCity(locationService.getName(profileVo.getCityId()));
 		return new BaseResult(ErrorCode.SUCCESS, profileVo);
 	}
 	

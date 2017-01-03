@@ -9,7 +9,7 @@ public interface GenericDao<T, PK extends Serializable> {
 	 * 
 	 * @param entity
 	 */
-	public int insert(T entity);
+	public void insert(T entity);
 
 	/**
 	 * update entity
@@ -17,7 +17,7 @@ public interface GenericDao<T, PK extends Serializable> {
 	 * @param entity
 	 * @return the number of update, normally return 1
 	 */
-	public int update(T entity);
+	public void update(T entity);
 
 	/**
 	 * get record by primary key
@@ -33,6 +33,6 @@ public interface GenericDao<T, PK extends Serializable> {
 	 * @param primaryKey
 	 * @return the number of delete, normally return 1
 	 */
-	public int delete(PK primaryKey);
+	public void delete(PK primaryKey);
 
 }

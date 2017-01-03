@@ -20,16 +20,6 @@ public class UserView {
 
     private String portrait;
 
-    private String realName;
-    
-    private String birthday;
-    
-    private String province;
-    
-    private String city;
-    
-    private String address;
-
 	public Long getId() {
 		return id;
 	}
@@ -100,45 +90,5 @@ public class UserView {
 
 	public void setPortrait(String portrait) {
 		this.portrait = portrait;
-	}
-
-	public String getRealName() {
-		return realName;
-	}
-
-	public void setRealName(String realName) {
-		this.realName = realName;
-	}
-	
-	public String getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 }

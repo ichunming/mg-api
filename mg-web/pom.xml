@@ -29,7 +29,7 @@
                 <version>6.1.5</version>
                 <configuration>
                     <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
-                    <scanIntervalSeconds>3</scanIntervalSeconds>
+                    <scanIntervalSeconds>60</scanIntervalSeconds>
                     <contextPath>/</contextPath>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">

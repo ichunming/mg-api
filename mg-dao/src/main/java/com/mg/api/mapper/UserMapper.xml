@@ -25,7 +25,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, password, salt, email, mobile, type, status, create_date, update_date
+    id, password, salt, email, mobile, status, create_date, update_date
   </sql>
   
   <sql id="View_Column_List">
@@ -62,9 +62,6 @@
       <if test="mobile != null" >
         mobile,
       </if>
-      <if test="type != null" >
-        type,
-      </if>
       <if test="status != null" >
         status,
       </if>
@@ -90,9 +87,6 @@
       </if>
       <if test="mobile != null" >
         #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -121,9 +115,6 @@
       <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
-      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -136,6 +127,62 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <insert id="insertUseGenKey" parameterType="com.mg.api.model.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
   
   <select id="getByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

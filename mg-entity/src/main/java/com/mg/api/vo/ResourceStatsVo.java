@@ -13,6 +13,14 @@ public class ResourceStatsVo {
 	
 	private Long size;
 
+	public ResourceStatsVo() {}
+	
+	public ResourceStatsVo(int type, int num, Long size) {
+		this.type = type;
+		this.num = num;
+		this.size = size;
+	}
+	
 	public int getType() {
 		return type;
 	}

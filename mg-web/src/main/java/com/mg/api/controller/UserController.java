@@ -30,6 +30,7 @@ import com.mg.api.common.util.StringUtil;
 import com.mg.api.common.util.helper.SessionInfo;
 import com.mg.api.core.configuration.AliConfiguration;
 import com.mg.api.core.configuration.ApiConfiguration;
+import com.mg.api.core.helper.LocationManage;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
 import com.mg.api.service.IFileService;
@@ -206,6 +207,15 @@ public class UserController {
 		String checkResult = profileVo.check();
 		if(!StringUtil.isEmpty(checkResult)) {
 			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, checkResult);
+		}
+		
+		// location check
+		logger.debug("check location info...");
+		if(null != profileVo.getProvinceId() && null == LocationManage.get(profileVo.getProvinceId())) {
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "province id not exist");
+		}
+		if(null != profileVo.getCityId() && null == LocationManage.get(profileVo.getCityId())) {
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "city id not exist");
 		}
 		
 		// 保存信息

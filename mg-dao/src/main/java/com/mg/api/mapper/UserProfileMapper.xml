@@ -2,21 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mg.api.dao.UserProfileDao" >
   <resultMap id="BaseResultMap" type="com.mg.api.model.UserProfile">
-    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <id column="uid" jdbcType="BIGINT" property="uid" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="portrait" jdbcType="VARCHAR" property="portrait" />
-    <result column="domain" jdbcType="VARCHAR" property="domain" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="career" jdbcType="VARCHAR" property="career" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
     <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="province" jdbcType="INTEGER" property="province" />
+    <result column="city" jdbcType="INTEGER" property="city" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    uid, nickname, portrait, domain, real_name, birthday, province, city, address, create_date, update_date
+    uid, nickname, portrait, real_name, gender, career, intro, domain, birthday, province, 
+    city, address, create_date, update_date
   </sql>
   
   <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -31,103 +35,130 @@
     where uid = #{uid,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.mg.api.model.UserProfile" >
+  <insert id="insert" parameterType="com.mg.api.model.UserProfile">
     insert into user_profile
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="uid != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
         uid,
       </if>
-      <if test="nickname != null" >
+      <if test="nickname != null">
         nickname,
       </if>
-      <if test="portrait != null" >
+      <if test="portrait != null">
         portrait,
       </if>
-      <if test="domain != null" >
-        domain,
-      </if>
-      <if test="realName != null" >
+      <if test="realName != null">
         real_name,
       </if>
-      <if test="birthday != null" >
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="career != null">
+        career,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="domain != null">
+        domain,
+      </if>
+      <if test="birthday != null">
         birthday,
       </if>
-      <if test="province != null" >
+      <if test="province != null">
         province,
       </if>
-      <if test="city != null" >
+      <if test="city != null">
         city,
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         address,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         update_date,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="uid != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
-      <if test="nickname != null" >
+      <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="portrait != null" >
+      <if test="portrait != null">
         #{portrait,jdbcType=VARCHAR},
       </if>
-      <if test="domain != null" >
-        #{domain,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null" >
+      <if test="realName != null">
         #{realName,jdbcType=VARCHAR},
       </if>
-      <if test="birthday != null" >
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="career != null">
+        #{career,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null">
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
         #{birthday,jdbcType=VARCHAR},
       </if>
-      <if test="province != null" >
-        #{province,jdbcType=VARCHAR},
+      <if test="province != null">
+        #{province,jdbcType=INTEGER},
       </if>
-      <if test="city != null" >
-        #{city,jdbcType=VARCHAR},
+      <if test="city != null">
+        #{city,jdbcType=INTEGER},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null" >
+      <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   
   <update id="update" parameterType="com.mg.api.model.UserProfile">
-     update user_profile
-    <set >
+    update user_profile
+    <set>
       <if test="nickname != null">
         nickname = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="portrait != null">
         portrait = #{portrait,jdbcType=VARCHAR},
       </if>
-      <if test="domain != null">
-        domain = #{domain,jdbcType=VARCHAR},
-      </if>
       <if test="realName != null">
         real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="career != null">
+        career = #{career,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null">
+        domain = #{domain,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
-        province = #{province,jdbcType=VARCHAR},
+        province = #{province,jdbcType=INTEGER},
       </if>
       <if test="city != null">
-        city = #{city,jdbcType=VARCHAR},
+        city = #{city,jdbcType=INTEGER},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},

@@ -4,6 +4,8 @@ import com.mg.api.entity.UserView;
 import com.mg.api.model.User;
 
 public interface UserDao extends GenericDao<User, Long> {
+	
+	public Long insertUseGenKey(User user);
 	/**
 	 * 通过邮箱查找用户
 	 * @param email

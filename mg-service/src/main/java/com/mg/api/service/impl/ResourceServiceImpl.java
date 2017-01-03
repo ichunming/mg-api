@@ -137,6 +137,41 @@ public class ResourceServiceImpl implements IResourceService {
 		// 统计资源信息
 		logger.debug("statistics resource info...");
 		List<ResourceStatsVo> reStatsVos = resourceDao.statistics(uid);
+		
+		boolean hasImg = false;
+		boolean hasAudio = false;
+		boolean hasVideo = false;
+		
+		// check结果集
+		logger.debug("check result...");
+		for(ResourceStatsVo reStatsVo : reStatsVos) {
+			switch(reStatsVo.getType()) {
+			case SystemConstant.RESOURCE_TYPE_IMAGE:
+				hasImg = true;
+				break;
+			case SystemConstant.RESOURCE_TYPE_AUDIO:
+				hasAudio = true;
+				break;
+			case SystemConstant.RESOURCE_TYPE_VIDEO:
+				hasVideo = true;
+				break;
+			default :
+				break;
+			}
+		}
+		
+		if(!hasImg) {
+			reStatsVos.add(new ResourceStatsVo(SystemConstant.RESOURCE_TYPE_IMAGE, 0, 0L));
+		}
+		
+		if(!hasAudio) {
+			reStatsVos.add(new ResourceStatsVo(SystemConstant.RESOURCE_TYPE_AUDIO, 0, 0L));
+		}
+		
+		if(!hasVideo) {
+			reStatsVos.add(new ResourceStatsVo(SystemConstant.RESOURCE_TYPE_VIDEO, 0, 0L));
+		}
+		
 		return new BaseResult(ErrorCode.SUCCESS, reStatsVos);
 	}
 }

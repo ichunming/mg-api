@@ -14,7 +14,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 public class StringUtil {
-	private static final String TEMPLATE_PATH = "/com/ichunming/mg/common/template/";
+	private static final String TEMPLATE_PATH = "/com/mg/api/core/template/";
 	
 	// 邮箱最大长度
 	private static final int EMAIL_MAX_LENGTH = 50;

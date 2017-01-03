@@ -2,19 +2,16 @@ package com.mg.api.vo;
 
 import com.mg.api.common.util.DateUtil;
 import com.mg.api.common.util.StringUtil;
-import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
 
 public class UserProfileVo {
 	private String nickname;
 	private static final int NICKNAME_LEN = 50;
 	
-	private String portrait;
-	
 	private String realName;
 	private static final int REALNAME_LEN = 50;
 	
-	private int gender;
+	private Integer gender;
 	
 	private String career;
 	private static final int CAREER_LEN = 50;
@@ -24,11 +21,11 @@ public class UserProfileVo {
 	
 	private String birthday;
 	
-	private int provinceId;
+	private Integer provinceId;
 	
 	private String province;
 	
-	private int cityId;
+	private Integer cityId;
 	
 	private String city;
 	
@@ -37,12 +34,15 @@ public class UserProfileVo {
 	
 	public String check() {
 		// nickname
-		if(!StringUtil.isEmpty(nickname) && nickname.length() > NICKNAME_LEN) return "nickname too long";
+		if(StringUtil.isEmpty(nickname)) return "nickname empty";
+		if(nickname.length() > NICKNAME_LEN) return "nickname too long";
 		// realName
 		if(!StringUtil.isEmpty(realName) && realName.length() > REALNAME_LEN) return "real name too long";
-		// province TODO
+		// gender
+		if(gender != null && gender.intValue() != 1 && gender.intValue() != 2) return "gender type wrong";
+		// province--out check
 		
-		// city TODO
+		// city--out check
 		
 		// career
 		if(!StringUtil.isEmpty(career) && career.length() > CAREER_LEN) return "career too long";
@@ -56,11 +56,38 @@ public class UserProfileVo {
 		return null;
 	}
 	
-	public int getGender() {
+	public UserProfile toUserProfile() {
+		UserProfile profile = new UserProfile();
+		profile.setNickname(nickname);
+		profile.setRealName(realName);
+		profile.setGender(gender);
+		profile.setCareer(career);
+		profile.setIntro(intro);
+		profile.setBirthday(birthday);
+		profile.setProvince(provinceId);
+		profile.setCity(cityId);
+		profile.setAddress(address);
+		
+		return profile;
+	}
+	
+	public void fromEntity(UserProfile profile) {
+		this.nickname = profile.getNickname();
+		this.realName = profile.getRealName();
+		this.gender = profile.getGender();
+		this.career = profile.getCareer();
+		this.intro = profile.getIntro();
+		this.birthday = profile.getBirthday();
+		this.provinceId = profile.getProvince();
+		this.cityId = profile.getCity();
+		this.address = profile.getAddress();
+	}
+	
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 
@@ -79,29 +106,6 @@ public class UserProfileVo {
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
-
-	public UserProfile toUserProfile() {
-		UserProfile profile = new UserProfile();
-		profile.setNickname(nickname);
-		profile.setPortrait(portrait);
-		profile.setRealName(realName);
-		profile.setBirthday(birthday);
-		profile.setProvince(provinceId);
-		profile.setCity(cityId);
-		profile.setAddress(address);
-		
-		return profile;
-	}
-	
-	public void fromViews(UserView view) {
-		this.nickname = view.getNickname();
-		this.portrait = view.getPortrait();
-		this.realName = view.getRealName();
-		this.birthday = view.getBirthday();
-		this.province = view.getProvince();
-		this.city = view.getCity();
-		this.address = view.getAddress();
-	}
 	
 	public String getNickname() {
 		return nickname;
@@ -109,14 +113,6 @@ public class UserProfileVo {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	public String getPortrait() {
-		return portrait;
-	}
-
-	public void setPortrait(String portrait) {
-		this.portrait = portrait;
 	}
 
 	public String getRealName() {
@@ -135,19 +131,19 @@ public class UserProfileVo {
 		this.birthday = birthday;
 	}
 
-	public int getProvinceId() {
+	public Integer getProvinceId() {
 		return provinceId;
 	}
 
-	public void setProvinceId(int provinceId) {
+	public void setProvinceId(Integer provinceId) {
 		this.provinceId = provinceId;
 	}
 
-	public int getCityId() {
+	public Integer getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(int cityId) {
+	public void setCityId(Integer cityId) {
 		this.cityId = cityId;
 	}
 

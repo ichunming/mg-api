@@ -18,11 +18,5 @@
 			<artifactId>mg-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.mg</groupId>
-			<artifactId>mg-vo</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 </project>

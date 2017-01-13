@@ -23,8 +23,8 @@ public class StringUtil {
 	
 	private static final String MOBILE_REG = "^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
 	
-	// 不能全为数字或字母,长度8-32
-	private static final String PWD_REG = "(?!^\\d+$)(?!^[a-zA-Z]+$).{8,32}";
+	// 不能全为数字或字母,长度6-24
+	private static final String PWD_REG = "(?!^\\d+$)(?!^[a-zA-Z]+$).{6,24}";
 	
 	/**
 	 * password check

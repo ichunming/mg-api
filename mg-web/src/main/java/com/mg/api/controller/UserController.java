@@ -68,8 +68,14 @@ public class UserController {
 		// 用户注册
 		logger.debug("user register...");
 		
-		// 检测邮箱或手机
 		logger.debug("check username[" + username + "].");
+		// check密码格式
+		if(!StringUtil.isPassword(password)) {
+			// 请求参数错误
+			logger.debug("password format error.");
+			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "password invalid");
+		}
+		// 检测邮箱或手机
 		if(StringUtil.isEmail(username)) {
 			// 检测邮箱支持
 			if(!SystemSettings.EMAIL_REG_SUPPORT) {

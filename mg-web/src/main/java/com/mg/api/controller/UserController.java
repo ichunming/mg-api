@@ -30,7 +30,7 @@ import com.mg.api.common.util.StringUtil;
 import com.mg.api.common.util.helper.SessionInfo;
 import com.mg.api.core.configuration.AliConfiguration;
 import com.mg.api.core.configuration.ApiConfiguration;
-import com.mg.api.core.helper.LocationManage;
+import com.mg.api.core.helper.LocationManager;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.UserProfile;
 import com.mg.api.service.IFileService;
@@ -131,7 +131,7 @@ public class UserController {
 			// 保存SessionInfo
 			logger.debug("save session info...");
 			UserView user = (UserView)result.getData();
-			SessionInfo sessionInfo = new SessionInfo(user.getId(), user.getEmail(), user.getMobile());
+			SessionInfo sessionInfo = new SessionInfo(user.getId());
 			SessionUtil.setSessionInfo(sessionInfo, request);
 			
 			// 初始值处理
@@ -144,7 +144,6 @@ public class UserController {
 			
 			// 保存cookie
 			try {
-				CookieUtil.setCookie(response, SystemConstant.COOKIES_UID_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
 				CookieUtil.setCookie(response, SystemConstant.COOKIES_NICKNAME_NAME,  URLEncoder.encode(user.getNickname(), "utf-8"), apiConfig.getDomainUrl());
 				CookieUtil.setCookie(response, SystemConstant.COOKIES_HEADIMG_NAME,  URLEncoder.encode(aliConfig.getOssBktImageUrl() + user.getPortrait(), "utf-8"), apiConfig.getDomainUrl());
 			} catch (Exception e) {
@@ -217,10 +216,10 @@ public class UserController {
 		
 		// location check
 		logger.debug("check location info...");
-		if(null != profileVo.getProvinceId() && null == LocationManage.get(profileVo.getProvinceId())) {
+		if(null != profileVo.getProvinceId() && null == LocationManager.get(profileVo.getProvinceId())) {
 			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "province id not exist");
 		}
-		if(null != profileVo.getCityId() && null == LocationManage.get(profileVo.getCityId())) {
+		if(null != profileVo.getCityId() && null == LocationManager.get(profileVo.getCityId())) {
 			return new BaseResult(ErrorCode.ERR_SYS_REQUEST_PARAM_INVALID, "city id not exist");
 		}
 		

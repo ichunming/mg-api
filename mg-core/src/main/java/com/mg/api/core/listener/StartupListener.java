@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.mg.api.core.helper.LocationManage;
+import com.mg.api.core.helper.LocationManager;
 import com.mg.api.dao.LocationDao;
 import com.mg.api.model.Location;
 
@@ -41,7 +41,7 @@ public class StartupListener implements ServletContextListener {
     	/* 取得城市信息 */
     	logger.info("get location info...");
     	List<Location> locations = locationDao.getAll();
-    	LocationManage.setLocations(locations);
+    	LocationManager.setLocations(locations);
     	/* end */
     }
    

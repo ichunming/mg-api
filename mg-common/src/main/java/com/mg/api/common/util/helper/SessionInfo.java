@@ -3,17 +3,11 @@ package com.mg.api.common.util.helper;
 public class SessionInfo {
 	
 	private Long uid;
-	
-	private String email;
-
-    private String mobile;
 
     public SessionInfo() {}
     
-    public SessionInfo(Long uid, String email, String mobile) {
+    public SessionInfo(Long uid) {
     	this.uid = uid;
-    	this.email = email;
-    	this.mobile = mobile;
     }
     
 	public Long getUid() {
@@ -22,21 +16,5 @@ public class SessionInfo {
 
 	public void setUid(Long uid) {
 		this.uid = uid;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
 	}
 }

@@ -12,16 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mg.api.common.constant.ErrorCode;
+import com.mg.api.common.constant.SystemConstant;
 import com.mg.api.common.constant.UserStatus;
 import com.mg.api.common.constant.UserType;
 import com.mg.api.common.util.DateUtil;
 import com.mg.api.common.util.EncryptionUtil;
 import com.mg.api.common.util.RandomUtil;
+import com.mg.api.common.util.helper.UserInfo;
 import com.mg.api.dao.UserDao;
 import com.mg.api.dao.UserProfileDao;
 import com.mg.api.entity.UserView;
 import com.mg.api.model.User;
 import com.mg.api.model.UserProfile;
+import com.mg.api.service.ICacheService;
 import com.mg.api.service.ILocationService;
 import com.mg.api.service.IUserService;
 import com.mg.api.service.IVerifyService;
@@ -44,6 +47,9 @@ public class UserServiceImpl implements IUserService {
 	
 	@Autowired
 	private ILocationService locationService;
+	
+	@Autowired
+	private ICacheService cacheService;
 	
 	@Override
 	public BaseResult registerByEmail(String email, String password, String code) {
@@ -75,6 +81,12 @@ public class UserServiceImpl implements IUserService {
         // 创建用户信息
         logger.debug("create profile...");
         createProfile(user.getId());
+        
+        // 保存用户信息到缓存
+        logger.debug("save user info to cache...");
+        UserInfo userInfo = new UserInfo();
+        userInfo.setEmail(email);
+        cacheService.saveUserInfo(user.getId(), userInfo);
         
 		return new BaseResult(ErrorCode.SUCCESS);
 	}
@@ -109,6 +121,12 @@ public class UserServiceImpl implements IUserService {
         // 创建用户信息
         logger.debug("create profile...");
         createProfile(user.getId());
+        
+        // 保存用户信息到缓存
+        logger.debug("save user info to cache...");
+        UserInfo userInfo = new UserInfo();
+        userInfo.setMobile(mobile);
+        cacheService.saveUserInfo(user.getId(), userInfo);
         
 		return result;
 	}

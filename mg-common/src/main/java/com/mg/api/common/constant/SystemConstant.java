@@ -4,9 +4,11 @@ public class SystemConstant {
 	
 	public static final String SESSION_INFO_NAME = "MG-D15-M11-NAME";
 	
-	public static final String COOKIES_UID_NAME = "MG-COOKIES-UID";
 	public static final String COOKIES_NICKNAME_NAME = "MG-COOKIES-NICKNAME";
 	public static final String COOKIES_HEADIMG_NAME = "MG-COOKIES-HEADIMAGE";
+	
+	public static final String CACHE_REGIONI_USER_INFO = "MG-REGION-USER-INFO";
+	public static final String CACHE_REGIONI_LOCATION_INFO = "MG-REGION-LOCATION-INFO";
 	
 	public static final int RESOURCE_TYPE_FILE = 0;
 	public static final int RESOURCE_TYPE_IMAGE = 1;

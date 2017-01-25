@@ -40,7 +40,8 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
 		SessionInfo sessionInfo = SessionUtil.getSessionInfo(request);
 		// DEBUG MODE
 		if(SystemSettings.DEBUG_MODE) {
-			sessionInfo = new SessionInfo(1L, "test@test.com", "13761104110");
+			sessionInfo = new SessionInfo(1L);
+			
 			SessionUtil.setSessionInfo(sessionInfo, request);
 		}
 		if (null == sessionInfo) {

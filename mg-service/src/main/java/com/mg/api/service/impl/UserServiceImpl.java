@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mg.api.common.constant.ErrorCode;
-import com.mg.api.common.constant.SystemConstant;
 import com.mg.api.common.constant.UserStatus;
 import com.mg.api.common.constant.UserType;
 import com.mg.api.common.util.DateUtil;
@@ -157,7 +156,7 @@ public class UserServiceImpl implements IUserService {
 		
 		// 密码check
 		logger.debug("check password...");
-		if(!EncryptionUtil.match(password, user.getSalt(), user.getPassword())) {
+		if(!EncryptionUtil.match(genPwd(password, user.getSalt()), user.getPassword())) {
 			// 密码不一致
 			logger.debug("password not match...");
 			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID, "Password Not Match");
@@ -216,7 +215,7 @@ public class UserServiceImpl implements IUserService {
 		
 		// 原始密码check
 		logger.debug("check password...");
-		if(null == user || !EncryptionUtil.match(oldPwd, user.getSalt(), user.getPassword())) {
+		if(null == user || !EncryptionUtil.match(genPwd(oldPwd, user.getSalt()), user.getPassword())) {
 			// 密码不一致
 			logger.debug("password not match...");
 			return new BaseResult(ErrorCode.ERR_USER_PASSWD_INVALID, "Password Not Match");
@@ -242,7 +241,7 @@ public class UserServiceImpl implements IUserService {
         String salt = RandomUtil.genCharacterString(16);
         // 默认算法加密
         logger.debug("encrypt password...");
-        String enPwd = EncryptionUtil.encrypt(password, salt);
+        String enPwd = EncryptionUtil.encode(genPwd(password, salt));
         // 创建用户
         logger.debug("create user...");
         Date current = DateUtil.current();
@@ -264,5 +263,9 @@ public class UserServiceImpl implements IUserService {
         profile.setUpdateDate(current);
         
         profileDao.insert(profile);
+	}
+	
+	private String genPwd(String password, String salt) {
+		return password + salt;
 	}
 }

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import com.mg.api.common.constant.SystemConstant;
 import com.mg.api.common.util.helper.UserInfo;
 import com.mg.api.core.cache.ICacheManager;
-import com.mg.api.dao.UserDao;
-import com.mg.api.model.User;
 import com.mg.api.service.ICacheService;
 
 @Service
@@ -23,9 +21,6 @@ public class CacheServiceImpl implements ICacheService {
 	
 	@Autowired
 	private ICacheManager cacheManager;
-	
-	@Autowired
-	private UserDao userDao;
 	
 	/* (non-Javadoc)
 	 * @see com.mg.api.service.ICacheService#saveUserInfo()
@@ -52,15 +47,6 @@ public class CacheServiceImpl implements ICacheService {
 			userInfo = (UserInfo) cacheManager.get(SystemConstant.CACHE_REGIONI_USER_INFO, uid.toString());
 		} catch (Exception e) {
 			logger.error("Caught an exception when save user info into memcache.");
-		}
-		
-		if(null == userInfo) {
-			// get user info from cache failed
-			logger.debug("get user info from cache failed.");
-			logger.debug("get user info from database...");
-			User user = userDao.select(uid);
-			
-			userInfo = new UserInfo(user.getMobile(), user.getEmail());
 		}
 		
 		return userInfo;

@@ -16,7 +16,7 @@
             http://www.springframework.org/schema/context 
             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <!-- 激活@Required,@Aut t,@Resource等标注 -->
+    <!-- 激活@Required,@Aut,@Resource等注解 -->
     <context:annotation-config />
 
     <!-- tcherServlet上下文，只搜索@Controll 的类 -->
